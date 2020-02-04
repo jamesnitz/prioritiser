@@ -1,9 +1,10 @@
 import React from "react"
 import { Route, Redirect } from "react-router-dom"
-import ApplicationViews from "./ApplicationViews"
-// import NavBar from "./nav/NavBar"
+// import ApplicationViews from "./ApplicationViews"
+ import NavBar from "./nav/NavBar"
 import Login from "./auth/Login"
 import Register from "./auth/Register"
+import { UserProvider } from "./users/UserProvider"
 
 export default () => (
     <>
@@ -11,8 +12,10 @@ export default () => (
             if (localStorage.getItem("user")) {
                 return (
                     <>
-                        {/* <Route render={props => <NavBar {...props} />} /> */}
-                        <Route render={props => <ApplicationViews {...props} />} />
+                        <UserProvider>
+                        <Route render={props => <NavBar {...props} />} />
+                        </UserProvider>
+                        {/* <Route render={props => <ApplicationViews {...props} />} /> */}
                     </>
                 )
             } else {
