@@ -7,8 +7,6 @@ const Login = props => {
     const email = useRef()
     const password = useRef()
 
-    const address = useRef()
-
     const existingUserCheck = () => {
         return fetch(`http://localhost:8088/users?email=${email.current.value}`)
             .then(_ => _.json())
@@ -64,7 +62,7 @@ const Login = props => {
                 </form>
             </section>
             <section className="link--register">
-                <Link to="/register">Not a member yet?</Link>
+                <Link to="/register">Need an account?</Link>
             </section>
         </main>
     )

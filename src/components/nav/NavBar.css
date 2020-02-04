@@ -7,8 +7,13 @@
 .navbar__item {
   flex-basis: 20%;
   list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .nav__icon {
   max-width: 1.5em;
   max-height: 1.5em;
+
 }
+

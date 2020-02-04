@@ -10,10 +10,12 @@ export default (props) => {
   return (
     <ul className="navbar">
       <li className="navbar__item">Welcome {activeUser.name}</li>
+
       <li className="navbar__item">
-        <img className="nav__icon" src={require ('./list.png')}/>
+        <img className="nav__icon" alt="list icon" src={require ('./checklist.svg')}/>
         <Link className="navbar__link" to="/tasks">My List</Link>
       </li>
+
       <li className="navbar__item">
         <Link className="navbar__link" to="/archive">Archive</Link>
       </li>
