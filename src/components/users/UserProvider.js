@@ -47,7 +47,7 @@ export const UserProvider = (props) => {
 
     useEffect(() => {
         console.log("User app state change")
-    }, [Users])
+    }, [users])
 
     return (
       <UserContext.Provider value = {{
