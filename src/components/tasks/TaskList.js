@@ -62,6 +62,7 @@ export default () => {
       }}>{buttonClicked ? "Close" : "Add Items"}</button>
       {buttonClicked ? (
         <>
+        <form> 
           <fieldset>
             <div className="form-group">
               <label htmlFor="taskItem">Task Info </label>
@@ -70,7 +71,8 @@ export default () => {
                 placeholder="What needs doing"
                 defaultValue={singleTask.taskItem}
                 onChange={handleControlledInputChange}
-              />
+                className="form-control"
+                />
             </div>
           </fieldset>
           <fieldset>
@@ -80,6 +82,7 @@ export default () => {
                 defaultValue="select"
                 name="grade"
                 id="grade"
+                required
                 onChange={handleControlledInputChange}
                 className="form-control">
                 <option disabled>select</option>
@@ -88,15 +91,14 @@ export default () => {
                 <option value="C">C</option>
                 <option value="D">D</option>
               </select>
-
             </div>
           </fieldset>
           <button type="submit" onClick={evt => {
-            evt.preventDefault(
-              constructNewTask()
-            )
+            evt.preventDefault()
+            constructNewTask()
           }
-          }>Log new Task</button>
+        }>Log new Task</button>
+        </form>
         </>
 
       ) : (

@@ -7,6 +7,9 @@ export default () => {
   return (
     <>
     <TaskProvider>
+      <Route exact path="/" render={
+           props => <TaskList />
+        }/>
       <Route exact path="/tasks" render={
            props => <TaskList />
         }/>
