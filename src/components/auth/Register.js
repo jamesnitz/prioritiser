@@ -1,4 +1,5 @@
 import React, { useRef } from "react"
+
 // import "./Login.css"
 
 const Register = props => {
@@ -7,6 +8,7 @@ const Register = props => {
     const email = useRef()
     const password = useRef()
     const verifyPassword = useRef()
+   
 
     const existingUserCheck = () => {
         return fetch(`http://localhost:8088/users?email=${email.current.value}`)
@@ -93,6 +95,8 @@ const Register = props => {
                         placeholder="Verify password"
                         required />
                 </fieldset>
+                
+
                 <fieldset>
                     <button type="submit">
                         Sign in

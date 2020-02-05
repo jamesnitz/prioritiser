@@ -1,7 +1,12 @@
-import { TaskProvider } from "./TaskProvider"
+import React from 'react'
 
-export default (task) => {
+export default ({task}) => {
+  
   return (
-  <address>{task.taskItem}</address>
+    <section>
+  
+    <address>{task.grade} {task.taskItem}</address>
+    
+    </section>
   )
 }
