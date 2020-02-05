@@ -40,6 +40,17 @@ export const TaskProvider = (props) => {
         .then(getTasks)
     }
 
+    const patchTask = task => {
+      return fetch(`http://localhost:8088/tasks/${task.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(task)
+      })
+        .then(getTasks)
+    }
+
    
     useEffect(() => {
         getTasks()
@@ -51,7 +62,7 @@ export const TaskProvider = (props) => {
 
     return (
       <TaskContext.Provider value = {{
-        tasks, addTask, deleteTask, editTask
+        tasks, addTask, deleteTask, editTask, patchTask
       }}>
           {props.children}
       </TaskContext.Provider>
