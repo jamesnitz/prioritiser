@@ -22,7 +22,7 @@ export default () => {
   })
 
   let taskList = ""
-  if (foundTasks < 1) {
+  if (foundTasks > 1) {
     taskList = <>
       <button>Add List</button>
     </>
@@ -53,7 +53,12 @@ export default () => {
       <h1>List</h1>
       <button onClick={() => {
         let trueVariable = true;
-        setButtonClicked(trueVariable)
+        let falseVariable = false;
+        if (buttonClicked === false) {
+          setButtonClicked(trueVariable)
+        } else {
+          setButtonClicked(falseVariable)
+        }
       }}>{buttonClicked ? "Close" : "Add Items"}</button>
       {buttonClicked ? (
         <>
@@ -96,7 +101,7 @@ export default () => {
 
       ) : (
           <>
-            {console.log("false")}
+            <h1>Start Knocking off List Items, Brah</h1>
 
           </>
         )}
