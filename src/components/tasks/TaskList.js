@@ -4,7 +4,7 @@ import Task from "./Task"
 
 
 export default () => {
-  const { tasks, addTask, } = useContext(TaskContext)
+  const { tasks, addTask } = useContext(TaskContext)
   const activeUser = parseInt(localStorage.getItem("user"), 10)
   const [buttonClicked, setButtonClicked] = useState(false)
   const [singleTask, setTask] = useState({})
@@ -22,17 +22,18 @@ export default () => {
   })
 
   let taskList = ""
-  if (foundTasks > 1) {
+  if (foundTasks < 1) {
+    taskList = <>
+      <h1>Make a list, brah</h1>
+    </>
+  } else {
     taskList = <>
       {foundTasks.map(task => {
         return <Task key={task.id}
-                task={task} />
+          task={task} />
       })}
     </>
   }
-
-
-
 
 
   const constructNewTask = () => {
@@ -100,7 +101,7 @@ export default () => {
 
       ) : (
           <>
-            <h1>Start Knocking off List Items, Brah</h1>
+            <h1>Start Knocking off List Items</h1>
 
           </>
         )}
