@@ -4,7 +4,7 @@ import Task from "./Task"
 
 
 export default () => {
-  const { tasks, addTask } = useContext(TaskContext)
+  const { tasks, addTask, } = useContext(TaskContext)
   const activeUser = parseInt(localStorage.getItem("user"), 10)
   const [buttonClicked, setButtonClicked] = useState(false)
   const [singleTask, setTask] = useState({})
@@ -24,16 +24,15 @@ export default () => {
   let taskList = ""
   if (foundTasks > 1) {
     taskList = <>
-      <button>Add List</button>
-    </>
-  } else {
-    taskList = <>
       {foundTasks.map(task => {
         return <Task key={task.id}
-          task={task} />
+                task={task} />
       })}
     </>
   }
+
+
+
 
 
   const constructNewTask = () => {
