@@ -1,7 +1,15 @@
-import React, { useContext, useRef } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { TaskContext } from './TaskProvider'
+import Modal from 'react-bootstrap/Modal'
+import "./Task.css"
 
-export default ({task}) => {
+
+export default ({ task }) => {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true)
+
   const { deleteTask, patchTask } = useContext(TaskContext)
   const isCompleted = useRef(Boolean)
 
@@ -12,15 +20,28 @@ export default ({task}) => {
 
   return (
     <section>
-    <address>{task.grade} {task.taskItem} <button
-        onClick={() => {
-          if (window.confirm("Delete this item?")) {
-            deleteTask(task);
-          }
-        }}
-        className="editTask btn-edit-delete btn btn-light">
-        Delete Task
+      <div className="taskContainer">
+        <address className="taskGrade"> {task.grade} </address>
+      <address className="taskItem" onClick={handleShow}> {task.taskItem} 
+        <button
+          onClick={() => {
+            if (window.confirm("Delete this item?")) {
+              deleteTask(task);
+            }
+          }}
+          className="editTask btn-edit-delete btn btn-light">
+          Delete Task
       </button>
+        </address>
+        <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>{task.taskItem}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+        <Modal.Footer>
+        </Modal.Footer>
+      </Modal>
+      <address className="checkbox">
         <label htmlFor="complete"> complete</label>
         <input
           type="checkbox"
@@ -28,9 +49,9 @@ export default ({task}) => {
           ref={isCompleted}
           autoFocus
           className="form-control"
-          defaultChecked = {false}
+          defaultChecked={false}
           onClick={
-            () => {  
+            () => {
               if (isCompleted.current.checked) {
                 patchTask({
                   id: task.id,
@@ -39,9 +60,11 @@ export default ({task}) => {
                 })
               }
             }
-          }/>
+          } />
+
       </address>
-    
+          </div>
+
     </section>
   )
 }

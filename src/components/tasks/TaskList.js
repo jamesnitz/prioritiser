@@ -2,7 +2,6 @@ import React, { useContext, useState, useRef } from "react"
 import { TaskContext } from "./TaskProvider"
 import Task from "./Task"
 
-
 export default () => {
   const { tasks, addTask } = useContext(TaskContext)
   const activeUser = parseInt(localStorage.getItem("user"), 10)
