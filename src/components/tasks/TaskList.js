@@ -22,54 +22,80 @@ export default () => {
     }
   })
 
-const gradeATasks = foundTasks.filter(task => {
-  if (task.grade === "A") {
-    return task
-  }
-})
-const gradeBTasks = foundTasks.filter(task => {
-  if (task.grade === "B") {
-    return task
-  }
-})
-const gradeCTasks = foundTasks.filter(task => {
-  if (task.grade === "C") {
-    return task
-  }
-})
-const gradeDTasks = foundTasks.filter(task => {
-  if (task.grade === "D") {
-    return task
-  }
-})
+  const gradeATasks = foundTasks.filter(task => {
+    if (task.grade === "A") {
+      return task
+    }
+  })
+  const gradeBTasks = foundTasks.filter(task => {
+    if (task.grade === "B") {
+      return task
+    }
+  })
+  const gradeCTasks = foundTasks.filter(task => {
+    if (task.grade === "C") {
+      return task
+    }
+  })
+  const gradeDTasks = foundTasks.filter(task => {
+    if (task.grade === "D") {
+      return task
+    }
+  })
+
+
+
 
   let taskList = ""
-  if (foundTasks < 1) {
+  if (foundTasks.length < 1) {
     taskList = <>
       <h1>Make a list, brah</h1>
     </>
   } else {
     taskList = <>
-      {gradeATasks.map(task => {
-        return <Task key={task.id}
-          task={task} />
-      })}
-      {gradeBTasks.map(task => {
-        return <Task key={task.id}
-          task={task} />
-      })}
-      {gradeCTasks.map(task => {
-        return <Task key={task.id}
-          task={task} />
-      })}
-      {gradeDTasks.map(task => {
-        return <Task key={task.id}
-          task={task} />
-      })}
+      <section>
+        {gradeATasks.length >= 1 ?
+          <div>
+            <h4>A Priority</h4>
+            {gradeATasks.map(task => {
+              return <Task key={task.id}
+                task={task} />
+            })}
+          </div>
+          : <div></div>}
+
+        {gradeBTasks.length >= 1 ?
+          <div>
+            <h4>B Priority</h4>
+            {gradeBTasks.map(task => {
+              return <Task key={task.id}
+                task={task} />
+            })}
+          </div>
+          : <div></div>}
+        {gradeCTasks.length >= 1 ?
+          <div>
+            <h4>C Priority</h4>
+            {gradeCTasks.map(task => {
+              return <Task key={task.id}
+                task={task} />
+            })}
+          </div>
+          : <div></div>}
+        {gradeDTasks.length >= 1 ?
+          <div>
+            <h4>D Priority</h4>
+            {gradeDTasks.map(task => {
+              return <Task key={task.id}
+                task={task} />
+            })}
+          </div>
+          : <div></div>}
+      </section>
     </>
   }
 
-  
+
 
 
   const constructNewTask = () => {
@@ -96,44 +122,44 @@ const gradeDTasks = foundTasks.filter(task => {
       }}>{buttonClicked ? "Close" : "Add Items"}</button>
       {buttonClicked ? (
         <>
-        <form> 
-          <fieldset>
-            <div className="form-group">
-              <label htmlFor="taskItem">Task Info </label>
-              <input type="text" name="taskItem" required autoFocus className="form-control"
-                proptype="varchar"
-                ref={taskRef}
-                placeholder="What needs doing"
-                defaultValue={singleTask.taskItem}
-                onChange={handleControlledInputChange}
-                className="form-control"
+          <form>
+            <fieldset>
+              <div className="form-group">
+                <label htmlFor="taskItem">Task Info </label>
+                <input type="text" name="taskItem" required autoFocus className="form-control"
+                  proptype="varchar"
+                  ref={taskRef}
+                  placeholder="What needs doing"
+                  defaultValue={singleTask.taskItem}
+                  onChange={handleControlledInputChange}
+                  className="form-control"
                 />
-            </div>
-          </fieldset>
-          <fieldset>
-            <div className="form-group">
-              <label htmlFor="grade">Grade this item</label>
-              <select
-                defaultValue="select"
-                name="grade"
-                id="grade"
-                ref={gradeRef}
-                required
-                onChange={handleControlledInputChange}
-                className="form-control">
-                <option value="0">select</option>
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-                <option value="D">D</option>
-              </select>
-            </div>
-          </fieldset>
-          <button type="submit" onClick={evt => {
+              </div>
+            </fieldset>
+            <fieldset>
+              <div className="form-group">
+                <label htmlFor="grade">Grade this item</label>
+                <select
+                  defaultValue="select"
+                  name="grade"
+                  id="grade"
+                  ref={gradeRef}
+                  required
+                  onChange={handleControlledInputChange}
+                  className="form-control">
+                  <option value="0">select</option>
+                  <option value="A">A</option>
+                  <option value="B">B</option>
+                  <option value="C">C</option>
+                  <option value="D">D</option>
+                </select>
+              </div>
+            </fieldset>
+            <button type="submit" onClick={evt => {
               if (taskRef.current.value === "") {
                 window.alert("Please add a task")
                 evt.preventDefault()
-              } else if ( gradeRef.current.value === "0") {
+              } else if (gradeRef.current.value === "0") {
                 window.alert("Please assign a grade")
                 evt.preventDefault()
               } else {
@@ -142,9 +168,9 @@ const gradeDTasks = foundTasks.filter(task => {
                 taskRef.current.value = ""
                 gradeRef.current.value = "0"
               }
-          }
-        }>Log new Task</button>
-        </form>
+            }
+            }>Log new Task</button>
+          </form>
         </>
 
       ) : (

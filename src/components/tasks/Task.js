@@ -17,7 +17,6 @@ export default ({ task }) => {
   return (
     <section> 
       <div className="taskContainer">
-        <address className="taskGrade"> {task.grade} </address>
         <address className="taskItem" onClick={handleShow}> {task.taskItem}</address>
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
