@@ -1,0 +1,12 @@
+.taskContainer{
+  display: flex;
+  margin: 10px;
+}
+
+.taskGrade{
+  margin: 5px;
+}
+
+.taskItem{
+  margin: 5px;
+}

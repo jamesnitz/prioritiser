@@ -1,13 +1,14 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useState, useRef } from "react"
 import { TaskContext } from "./TaskProvider"
 import Task from "./Task"
 
-
 export default () => {
-  const { tasks, addTask, } = useContext(TaskContext)
+  const { tasks, addTask } = useContext(TaskContext)
   const activeUser = parseInt(localStorage.getItem("user"), 10)
   const [buttonClicked, setButtonClicked] = useState(false)
   const [singleTask, setTask] = useState({})
+  const taskRef = useRef("")
+  const gradeRef = useRef(0)
 
   const handleControlledInputChange = (event) => {
     const newTask = Object.assign({}, singleTask)
@@ -22,17 +23,18 @@ export default () => {
   })
 
   let taskList = ""
-  if (foundTasks > 1) {
+  if (foundTasks < 1) {
+    taskList = <>
+      <h1>Make a list, brah</h1>
+    </>
+  } else {
     taskList = <>
       {foundTasks.map(task => {
         return <Task key={task.id}
-                task={task} />
+          task={task} />
       })}
     </>
   }
-
-
-
 
 
   const constructNewTask = () => {
@@ -45,8 +47,6 @@ export default () => {
       isCompleted: false
     })
   }
-
-
   return (
     <section>
       <h1>List</h1>
@@ -61,15 +61,18 @@ export default () => {
       }}>{buttonClicked ? "Close" : "Add Items"}</button>
       {buttonClicked ? (
         <>
+        <form> 
           <fieldset>
             <div className="form-group">
               <label htmlFor="taskItem">Task Info </label>
               <input type="text" name="taskItem" required autoFocus className="form-control"
                 proptype="varchar"
+                ref={taskRef}
                 placeholder="What needs doing"
                 defaultValue={singleTask.taskItem}
                 onChange={handleControlledInputChange}
-              />
+                className="form-control"
+                />
             </div>
           </fieldset>
           <fieldset>
@@ -79,28 +82,39 @@ export default () => {
                 defaultValue="select"
                 name="grade"
                 id="grade"
+                ref={gradeRef}
+                required
                 onChange={handleControlledInputChange}
                 className="form-control">
-                <option disabled>select</option>
+                <option value="0">select</option>
                 <option value="A">A</option>
                 <option value="B">B</option>
                 <option value="C">C</option>
                 <option value="D">D</option>
               </select>
-
             </div>
           </fieldset>
           <button type="submit" onClick={evt => {
-            evt.preventDefault(
-              constructNewTask()
-            )
+              if (taskRef.current.value === "") {
+                window.alert("Please add a task")
+                evt.preventDefault()
+              } else if ( gradeRef.current.value === "0") {
+                window.alert("Please assign a grade")
+                evt.preventDefault()
+              } else {
+                evt.preventDefault()
+                constructNewTask()
+                taskRef.current.value = ""
+                gradeRef.current.value = "0"
+              }
           }
-          }>Log new Task</button>
+        }>Log new Task</button>
+        </form>
         </>
 
       ) : (
           <>
-            <h1>Start Knocking off List Items, Brah</h1>
+            <h1>Start Knocking off List Items</h1>
 
           </>
         )}
