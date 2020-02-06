@@ -11,7 +11,7 @@ export default ({ task }) => {
   const { deleteTask, patchTask, editTask } = useContext(TaskContext)
   const isCompleted = useRef(Boolean)
   const [taskToEdit, setTask] = useState({})
-
+  
   const handleControlledInputChange = (event) => {
     const singleTask = Object.assign({}, taskToEdit)
     singleTask[event.target.name] = event.target.value
@@ -20,21 +20,12 @@ export default ({ task }) => {
   }
 
 
+
   return (
-    <section>
+    <section> 
       <div className="taskContainer">
         <address className="taskGrade"> {task.grade} </address>
-        <address className="taskItem" onClick={handleShow}> {task.taskItem}
-          <button
-            onClick={() => {
-              if (window.confirm("Delete this item?")) {
-                deleteTask(task);
-              }
-            }}
-            className="editTask btn-edit-delete btn btn-light">
-            Delete Task
-          </button>
-        </address>
+        <address className="taskItem" onClick={handleShow}> {task.taskItem}</address>
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>{task.taskItem}</Modal.Title>
@@ -46,7 +37,7 @@ export default ({ task }) => {
                 <input type="text" name="taskItem" required autoFocus className="form-control"
                   proptype="varchar"
                   placeholder="What needs doing"
-                  defaultValue={task.taskItem}
+                  defaultValue={taskToEdit.taskItem}
                   onChange={handleControlledInputChange}
                   className="form-control"
                 />
@@ -56,7 +47,7 @@ export default ({ task }) => {
               <div className="form-group">
                 <label htmlFor="grade">Grade this item</label>
                 <select
-                  defaultValue={task.grade}
+                  defaultValue={taskToEdit.grade}
                   name="grade"
                   id="grade"
                   required
@@ -76,7 +67,7 @@ export default ({ task }) => {
                 <textarea type="text" name="detail" required autoFocus className="form-control"
                   proptype="varchar"
                   placeholder="Provide details"
-                  defaultValue={task.taskDetail}
+                  defaultValue={taskToEdit.taskDetail}
                   onChange={handleControlledInputChange}
                   className="form-control"
                 />
@@ -94,15 +85,24 @@ export default ({ task }) => {
               })
               editTask({
                 id: task.id,
-                taskItem: task.taskItem,
+                taskItem: taskToEdit.taskItem,
                 userId: parseInt(localStorage.getItem("user"), 10),
-                grade: task.grade,
-                taskDetail: task.taskDetail,
-                completionDate: task.completionDate,
-                isCompleted: task.isCompleted
+                grade: taskToEdit.grade,
+                taskDetail: taskToEdit.detail,
+                completionDate: taskToEdit.completionDate,
+                isCompleted: taskToEdit.isCompleted
               })
             }}
             >Save</button>
+            <button
+            onClick={() => {
+              if (window.confirm("Delete this item?")) {
+                deleteTask(task);
+              }
+            }}
+            className="editTask btn-edit-delete btn btn-light">
+            Delete Task
+          </button>
           </Modal.Body>
           <Modal.Footer>
           </Modal.Footer>
