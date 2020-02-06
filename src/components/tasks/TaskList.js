@@ -22,6 +22,27 @@ export default () => {
     }
   })
 
+const gradeATasks = foundTasks.filter(task => {
+  if (task.grade === "A") {
+    return task
+  }
+})
+const gradeBTasks = foundTasks.filter(task => {
+  if (task.grade === "B") {
+    return task
+  }
+})
+const gradeCTasks = foundTasks.filter(task => {
+  if (task.grade === "C") {
+    return task
+  }
+})
+const gradeDTasks = foundTasks.filter(task => {
+  if (task.grade === "D") {
+    return task
+  }
+})
+
   let taskList = ""
   if (foundTasks < 1) {
     taskList = <>
@@ -29,12 +50,26 @@ export default () => {
     </>
   } else {
     taskList = <>
-      {foundTasks.map(task => {
+      {gradeATasks.map(task => {
+        return <Task key={task.id}
+          task={task} />
+      })}
+      {gradeBTasks.map(task => {
+        return <Task key={task.id}
+          task={task} />
+      })}
+      {gradeCTasks.map(task => {
+        return <Task key={task.id}
+          task={task} />
+      })}
+      {gradeDTasks.map(task => {
         return <Task key={task.id}
           task={task} />
       })}
     </>
   }
+
+  
 
 
   const constructNewTask = () => {
