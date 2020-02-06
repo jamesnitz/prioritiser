@@ -10,16 +10,9 @@ export default ({ task }) => {
   const handleShow = () => setShow(true)
   const { deleteTask, patchTask, editTask } = useContext(TaskContext)
   const isCompleted = useRef(Boolean)
-  const [taskToEdit, setTask] = useState({})
-  
-  const handleControlledInputChange = (event) => {
-    const singleTask = Object.assign({}, taskToEdit)
-    singleTask[event.target.name] = event.target.value
-    console.log(singleTask)
-    setTask(singleTask)
-  }
-
-
+  const itemRef = useRef("")
+  const gradeRef = useRef("")
+  const detailRef = useRef("")
 
   return (
     <section> 
@@ -36,9 +29,9 @@ export default ({ task }) => {
                 <label htmlFor="taskItem">Task Info </label>
                 <input type="text" name="taskItem" required autoFocus className="form-control"
                   proptype="varchar"
+                  ref = {itemRef}
                   placeholder="What needs doing"
-                  defaultValue={taskToEdit.taskItem}
-                  onChange={handleControlledInputChange}
+                  defaultValue={task.taskItem}
                   className="form-control"
                 />
               </div>
@@ -47,11 +40,11 @@ export default ({ task }) => {
               <div className="form-group">
                 <label htmlFor="grade">Grade this item</label>
                 <select
-                  defaultValue={taskToEdit.grade}
+                  defaultValue={task.grade}
                   name="grade"
                   id="grade"
                   required
-                  onChange={handleControlledInputChange}
+                  ref = {gradeRef}
                   className="form-control">
                   <option value="0">select</option>
                   <option value="A">A</option>
@@ -67,30 +60,21 @@ export default ({ task }) => {
                 <textarea type="text" name="detail" required autoFocus className="form-control"
                   proptype="varchar"
                   placeholder="Provide details"
-                  defaultValue={taskToEdit.taskDetail}
-                  onChange={handleControlledInputChange}
+                  ref = {detailRef}
+                  defaultValue={task.taskDetail}
                   className="form-control"
                 />
               </div>
             </fieldset>
             <button className="btn btn-primary" onClick={() => {
-              console.log({
-                id: task.id,
-                taskItem: taskToEdit.taskItem,
-                userId: parseInt(localStorage.getItem("user"), 10),
-                grade: taskToEdit.grade,
-                taskDetail: taskToEdit.detail,
-                completionDate: taskToEdit.completionDate,
-                isCompleted: taskToEdit.isCompleted
-              })
               editTask({
                 id: task.id,
-                taskItem: taskToEdit.taskItem,
+                taskItem: itemRef.current.value,
                 userId: parseInt(localStorage.getItem("user"), 10),
-                grade: taskToEdit.grade,
-                taskDetail: taskToEdit.detail,
-                completionDate: taskToEdit.completionDate,
-                isCompleted: taskToEdit.isCompleted
+                grade: gradeRef.current.value,
+                taskDetail: detailRef.current.value,
+                completionDate: task.completionDate,
+                isCompleted: task.isCompleted
               })
             }}
             >Save</button>
