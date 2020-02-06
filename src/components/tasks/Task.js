@@ -90,14 +90,14 @@ export default ({ task }) => {
           <Modal.Footer>
           </Modal.Footer>
         </Modal>
-        <address className="checkbox">
+        <address className="checkboxContainer">
           <label htmlFor="complete"> complete</label>
           <input
             type="checkbox"
             id="complete"
             ref={isCompleted}
             autoFocus
-            className="form-control"
+            className="checkbox"
             defaultChecked={false}
             onClick={
               () => {

@@ -94,10 +94,7 @@ export default () => {
       </section>
     </>
   }
-
-
-
-
+  
   const constructNewTask = () => {
     addTask({
       taskItem: singleTask.taskItem,
@@ -108,6 +105,7 @@ export default () => {
       isCompleted: false
     })
   }
+
   return (
     <section>
       <h1>List</h1>
@@ -172,12 +170,8 @@ export default () => {
             }>Log new Task</button>
           </form>
         </>
-
       ) : (
-          <>
-            <h1>Start Knocking off List Items</h1>
-
-          </>
+          <></>
         )}
       {taskList}
     </section>

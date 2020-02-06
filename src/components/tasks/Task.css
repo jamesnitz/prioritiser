@@ -10,3 +10,7 @@
 .taskItem{
   margin: 5px;
 }
+
+.taskItem:hover{
+  color: red;
+}
