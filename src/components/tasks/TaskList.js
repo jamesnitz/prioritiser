@@ -46,13 +46,13 @@ export default () => {
 
 
 
-
   let taskList = ""
   if (foundTasks.length < 1) {
     taskList = <>
       <h1>Make a list, brah</h1>
     </>
-  } else {
+  }
+  if (showAllButtonClicked) {
     taskList = <>
       <section>
         {gradeATasks.length >= 1 ?
@@ -96,6 +96,11 @@ export default () => {
     </>
   }
 
+  // if (showAllButtonClicked === false) {
+
+  // }
+
+
   const constructNewTask = () => {
     addTask({
       taskItem: singleTask.taskItem,
@@ -120,8 +125,8 @@ export default () => {
         }
       }}>{buttonClicked ? "Close" : "Add Items"}</button>
       <button onClick={() => {
-        let showAllTrueVariable = true ;
-        let showAllFalseVariable = false ;
+        let showAllTrueVariable = true;
+        let showAllFalseVariable = false;
         if (showAllButtonClicked === false) {
           setShowAllButtonClicked(showAllTrueVariable)
         } else {
