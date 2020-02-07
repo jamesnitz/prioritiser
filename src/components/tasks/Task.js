@@ -14,10 +14,12 @@ export default ({ task }) => {
   const gradeRef = useRef("")
   const detailRef = useRef("")
 
+  
+
   return (
     <section> 
       <div className="taskContainer">
-        <address className="taskItem" onClick={handleShow}> {task.taskItem}</address>
+        <address className={task.isCompleted ? "completed taskItem" : "notcompleted taskItem"} onClick={handleShow}> {task.taskItem}</address>
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>{task.taskItem}</Modal.Title>
@@ -98,7 +100,7 @@ export default ({ task }) => {
             ref={isCompleted}
             autoFocus
             className="checkbox"
-            defaultChecked={false}
+            defaultChecked={task.isCompleted}
             onClick={
               () => {
                 if (isCompleted.current.checked) {
@@ -106,6 +108,11 @@ export default ({ task }) => {
                     id: task.id,
                     isCompleted: isCompleted.current.checked,
                     completionDate: "Today"
+                  })
+                } else {
+                  patchTask({
+                    id: task.id,
+                    isCompleted: false
                   })
                 }
               }
