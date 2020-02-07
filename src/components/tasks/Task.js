@@ -14,10 +14,12 @@ export default ({ task }) => {
   const gradeRef = useRef("")
   const detailRef = useRef("")
 
+  
+
   return (
     <section> 
       <div className="taskContainer">
-        <address className="taskItem" onClick={handleShow}> {task.taskItem}</address>
+        <address className={task.isCompleted ? "completed taskItem" : "notcompleted taskItem"} onClick={handleShow}> {task.taskItem}</address>
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>{task.taskItem}</Modal.Title>

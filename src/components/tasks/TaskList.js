@@ -17,6 +17,12 @@ export default () => {
     setTask(newTask)
   }
 
+
+  if (tasks.isCompleted === true) {
+    taskRef.classList.add("completed")
+  }
+
+
   const foundTasks = tasks.filter(task => {
     if (task.userId === activeUser) {
       return task
