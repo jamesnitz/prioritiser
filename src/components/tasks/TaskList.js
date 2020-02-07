@@ -3,7 +3,7 @@ import { TaskContext } from "./TaskProvider"
 import Task from "./Task"
 
 export default () => {
-  const { tasks, addTask } = useContext(TaskContext)
+  const { tasks, addTask, patchTask } = useContext(TaskContext)
   const activeUser = parseInt(localStorage.getItem("user"), 10)
   const [buttonClicked, setButtonClicked] = useState(false)
   const [showAllButtonClicked, setShowAllButtonClicked] = useState(false)
@@ -114,6 +114,19 @@ export default () => {
     })
   }
 
+
+  // const markAllCompleted = () => {
+  //   foundTasks.map(task => {
+  //     if (task.isCompleted === false) {
+  //       debugger
+  //       return patchTask({
+  //         id: task.id,
+  //         isCompleted: true
+  //       })
+  //     }
+  //   })
+  // }
+
   return (
     <section>
       <h1>List</h1>
@@ -135,6 +148,7 @@ export default () => {
           setShowAllButtonClicked(showAllFalseVariable)
         }
       }}>{showAllButtonClicked ? "Show current priority" : "Show all tasks"}</button>
+      {/* <button onClick={() => markAllCompleted()}>Mark all as Complete</button> */}
       {buttonClicked ? (
         <>
           <form>
