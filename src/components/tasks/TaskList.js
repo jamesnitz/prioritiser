@@ -6,6 +6,7 @@ export default () => {
   const { tasks, addTask } = useContext(TaskContext)
   const activeUser = parseInt(localStorage.getItem("user"), 10)
   const [buttonClicked, setButtonClicked] = useState(false)
+  const [showAllButtonClicked, setShowAllButtonClicked] = useState(false)
   const [singleTask, setTask] = useState({})
   const taskRef = useRef("")
   const gradeRef = useRef(0)
@@ -94,7 +95,7 @@ export default () => {
       </section>
     </>
   }
-  
+
   const constructNewTask = () => {
     addTask({
       taskItem: singleTask.taskItem,
@@ -118,6 +119,15 @@ export default () => {
           setButtonClicked(falseVariable)
         }
       }}>{buttonClicked ? "Close" : "Add Items"}</button>
+      <button onClick={() => {
+        let showAllTrueVariable = true ;
+        let showAllFalseVariable = false ;
+        if (showAllButtonClicked === false) {
+          setShowAllButtonClicked(showAllTrueVariable)
+        } else {
+          setShowAllButtonClicked(showAllFalseVariable)
+        }
+      }}>{showAllButtonClicked ? "Show current priority" : "Show all tasks"}</button>
       {buttonClicked ? (
         <>
           <form>
