@@ -96,10 +96,6 @@ export default () => {
     </>
   }
 
-  // if (showAllButtonClicked === false) {
-
-  // }
-
 
   const constructNewTask = () => {
     addTask({
