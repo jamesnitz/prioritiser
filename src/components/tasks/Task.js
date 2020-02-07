@@ -17,7 +17,6 @@ export default ({ task }) => {
   return (
     <section> 
       <div className="taskContainer">
-        <address className="taskGrade"> {task.grade} </address>
         <address className="taskItem" onClick={handleShow}> {task.taskItem}</address>
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
@@ -91,14 +90,14 @@ export default ({ task }) => {
           <Modal.Footer>
           </Modal.Footer>
         </Modal>
-        <address className="checkbox">
+        <address className="checkboxContainer">
           <label htmlFor="complete"> complete</label>
           <input
             type="checkbox"
             id="complete"
             ref={isCompleted}
             autoFocus
-            className="form-control"
+            className="checkbox"
             defaultChecked={false}
             onClick={
               () => {
