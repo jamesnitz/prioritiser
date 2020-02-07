@@ -100,7 +100,7 @@ export default ({ task }) => {
             ref={isCompleted}
             autoFocus
             className="checkbox"
-            defaultChecked={false}
+            defaultChecked={task.isCompleted}
             onClick={
               () => {
                 if (isCompleted.current.checked) {
@@ -108,6 +108,11 @@ export default ({ task }) => {
                     id: task.id,
                     isCompleted: isCompleted.current.checked,
                     completionDate: "Today"
+                  })
+                } else {
+                  patchTask({
+                    id: task.id,
+                    isCompleted: false
                   })
                 }
               }
