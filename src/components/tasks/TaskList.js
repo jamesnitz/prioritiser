@@ -58,6 +58,61 @@ export default () => {
       <h1>Make a list, brah</h1>
     </>
   }
+
+
+
+
+
+  if (gradeATasks.find(task => !task.isCompleted )) {
+    taskList = <>
+      <section>
+        <h4>A Priority</h4>
+        {gradeATasks.map(task => {
+          return <Task key={task.id}
+            task={task} />
+        })}
+      </section>
+    </>
+  } else if (gradeATasks.every(task => task.isCompleted) && gradeBTasks.find(task => !task.isCompleted)) {
+    taskList = <>
+      <section>
+        <h4>B Priority</h4>
+        {gradeBTasks.map(task => {
+          return <Task key={task.id}
+            task={task} />
+        })}
+      </section>
+    </>
+  } else if (gradeATasks.every(task => task.isCompleted) && gradeBTasks.every(task => task.isCompleted) && gradeCTasks.find(task => !task.isCompleted)) { 
+    taskList = <>
+      <section>
+        <h4>C Priority</h4>
+        {gradeCTasks.map(task => {
+          return <Task key={task.id}
+            task={task} />
+        })}
+      </section>
+    </>
+  } else if (gradeATasks.every(task => task.isCompleted) && gradeBTasks.every(task => task.isCompleted) && gradeCTasks.every(task => task.isCompleted) && gradeDTasks.find(task => !task.isCompleted)) {
+    taskList = <>
+      <section>
+        <h4>D Priority</h4>
+        {gradeDTasks.map(task => {
+          return <Task key={task.id}
+            task={task} />
+        })}
+      </section>
+    </>
+  }
+
+  if  (gradeATasks.every(task => task.isCompleted) && gradeBTasks.every(task => task.isCompleted) && gradeCTasks.every(task => task.isCompleted) && gradeDTasks.every(task => task.isCompleted)) {
+    //This is where tasks need to then be sent to the archive! Do this later
+    console.log("finished")
+  }
+
+
+
+
   if (showAllButtonClicked) {
     taskList = <>
       <section>
