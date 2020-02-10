@@ -7,7 +7,7 @@ export default (props) => {
 
   const { tasks, addTask, patchTask } = useContext(TaskContext)
   const { lists, addList } = useContext(ListContext)
-  
+
   const activeUser = parseInt(localStorage.getItem("user"), 10)
   const [buttonClicked, setButtonClicked] = useState(false)
   const [addListButtonClicked, setAddListButtonClicked] = useState(false)
@@ -15,6 +15,7 @@ export default (props) => {
   const [singleTask, setTask] = useState({})
   const taskRef = useRef("")
   const listNameRef = useRef("")
+  const ViewListRef = useRef(0)
   const listRef = useRef(0)
   const gradeRef = useRef(0)
 
@@ -30,8 +31,17 @@ export default (props) => {
     taskRef.classList.add("completed")
   }
 
-
-  const foundTasks = tasks.filter(task => {
+  let selectedList = parseInt(ViewListRef.current.value, 10)
+  
+  const currentList = tasks.filter(task => {
+    if (task.listId === selectedList) {
+      return task
+    }
+  })
+  
+  console.log(currentList)
+  
+  const foundTasks = currentList.filter(task => {
     if (task.userId === activeUser) {
       return task
     }
@@ -165,12 +175,12 @@ export default (props) => {
     </>
   }
 
-const constructNewList = () => {
-  addList({
-    name: listNameRef.current.value
-  })
-}
-  
+  const constructNewList = () => {
+    addList({
+      name: listNameRef.current.value
+    })
+  }
+
 
 
   const constructNewTask = () => {
@@ -200,7 +210,7 @@ const constructNewList = () => {
 
   return (
     <section>
-      <h1>List</h1>
+      <h1>My Lists</h1>
       <button onClick={() => {
         let trueVariable = true;
         let falseVariable = false;
@@ -210,7 +220,7 @@ const constructNewList = () => {
           setAddListButtonClicked(falseVariable)
         }
       }
-    }>{addListButtonClicked ? "Close" : "Add a List"}</button>
+      }>{addListButtonClicked ? "Close" : "Add a List"}</button>
       <button onClick={() => {
         let trueVariable = true;
         let falseVariable = false;
@@ -249,14 +259,14 @@ const constructNewList = () => {
               evt.preventDefault()
               window.alert("Please name your list")
             } else {
-                evt.preventDefault()
-                  constructNewList()
-                  listNameRef.current.value = ""
-                  let falseVariable = false
-                  setAddListButtonClicked(falseVariable)  
-                }
+              evt.preventDefault()
+              constructNewList()
+              listNameRef.current.value = ""
+              let falseVariable = false
+              setAddListButtonClicked(falseVariable)
             }
-            }>Save New List</button>
+          }
+          }>Save New List</button>
         </form>
       ) : ("")}
       {buttonClicked ? (
@@ -334,6 +344,14 @@ const constructNewList = () => {
       ) : (
           <></>
         )}
+      <h4>Currently Viewing 
+        <select ref={ViewListRef} onChange={handleControlledInputChange}>
+        <option value="0">select</option>
+        {lists.map(viewList => (
+          <option key={viewList.id} value={viewList.id}>
+            {viewList.name} 
+          </option>))}
+      </select> List</h4>
       {taskList}
     </section>
   )

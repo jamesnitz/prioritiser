@@ -94,7 +94,6 @@ export default ({ task }) => {
           </Modal.Footer>
         </Modal>
         <address className="checkboxContainer">
-          <label htmlFor="complete"> complete</label>
           <input
             type="checkbox"
             id="complete"
