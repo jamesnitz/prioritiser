@@ -245,9 +245,16 @@ const constructNewList = () => {
             </div>
           </fieldset>
           <button type="submit" onClick={evt => {
+            if (listNameRef.current.value === "") {
+              evt.preventDefault()
+              window.alert("Please name your list")
+            } else {
                 evt.preventDefault()
-                constructNewList()
-                listNameRef.current.value = ""  
+                  constructNewList()
+                  listNameRef.current.value = ""
+                  let falseVariable = false
+                  setAddListButtonClicked(falseVariable)  
+                }
             }
             }>Save New List</button>
         </form>
