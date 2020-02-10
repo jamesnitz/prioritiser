@@ -2,7 +2,6 @@ import React, { useContext } from "react"
 import { Link } from "react-router-dom"
 import "./NavBar.css"
 import { UserContext } from "../users/UserProvider"
-
 export default (props) => {
   const { users } = useContext(UserContext)
   const activeUserId = parseInt(localStorage.getItem("user"))
@@ -12,7 +11,6 @@ export default (props) => {
       <li className="navbar__item">Welcome {activeUser.name}</li>
 
       <li className="navbar__item">
-        <img className="nav__icon" alt="list icon" src={require ('./checklist.svg')}/>
         <Link className="navbar__link" to="/tasks">My List</Link>
       </li>
 

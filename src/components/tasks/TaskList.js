@@ -1,19 +1,28 @@
 import React, { useContext, useState, useRef } from "react"
 import { TaskContext } from "./TaskProvider"
 import Task from "./Task"
+import { ListProvider, ListContext } from "../list/ListProvider"
 
-export default () => {
+export default (props) => {
+
   const { tasks, addTask, patchTask } = useContext(TaskContext)
+  const { lists, addList, patchList } = useContext(ListContext)
+
   const activeUser = parseInt(localStorage.getItem("user"), 10)
   const [buttonClicked, setButtonClicked] = useState(false)
+  const [addListButtonClicked, setAddListButtonClicked] = useState(false)
   const [showAllButtonClicked, setShowAllButtonClicked] = useState(false)
   const [singleTask, setTask] = useState({})
   const taskRef = useRef("")
+  const listNameRef = useRef("")
+  const ViewListRef = useRef(0)
+  const listRef = useRef(0)
   const gradeRef = useRef(0)
 
   const handleControlledInputChange = (event) => {
     const newTask = Object.assign({}, singleTask)
     newTask[event.target.name] = event.target.value
+    console.log(newTask)
     setTask(newTask)
   }
 
@@ -22,8 +31,29 @@ export default () => {
     taskRef.classList.add("completed")
   }
 
+  let selectedList = parseInt(ViewListRef.current.value, 10)
 
-  const foundTasks = tasks.filter(task => {
+  const usersLists = lists.filter(list => {
+    if (list.userId === parseInt(localStorage.getItem("user"), 10)) {
+      return list
+    }
+  })
+
+  const activeLists = usersLists.filter(list => {
+    if (list.archived === false) {
+      return list
+    }
+  })
+  
+  const currentListTasks = tasks.filter(task => {
+    if (task.listId === selectedList) {
+      return task
+    }
+  })
+  
+  
+  
+  const foundTasks = currentListTasks.filter(task => {
     if (task.userId === activeUser) {
       return task
     }
@@ -53,17 +83,18 @@ export default () => {
 
 
   let taskList = ""
-  if (foundTasks.length < 1) {
-    taskList = <>
-      <h1>Make a list, brah</h1>
-    </>
-  }
+
+  // if (foundTasks.length < 1) {
+  //   taskList = <>
+  //     <h1>Make a list, brah</h1>
+  //   </>
+  // }
 
 
 
 
 
-  if (gradeATasks.find(task => !task.isCompleted )) {
+  if (gradeATasks.find(task => !task.isCompleted)) {
     taskList = <>
       <section>
         <h4>A Priority</h4>
@@ -83,7 +114,7 @@ export default () => {
         })}
       </section>
     </>
-  } else if (gradeATasks.every(task => task.isCompleted) && gradeBTasks.every(task => task.isCompleted) && gradeCTasks.find(task => !task.isCompleted)) { 
+  } else if (gradeATasks.every(task => task.isCompleted) && gradeBTasks.every(task => task.isCompleted) && gradeCTasks.find(task => !task.isCompleted)) {
     taskList = <>
       <section>
         <h4>C Priority</h4>
@@ -104,10 +135,17 @@ export default () => {
       </section>
     </>
   }
-
-  if  (gradeATasks.every(task => task.isCompleted) && gradeBTasks.every(task => task.isCompleted) && gradeCTasks.every(task => task.isCompleted) && gradeDTasks.every(task => task.isCompleted)) {
-    //This is where tasks need to then be sent to the archive! Do this later
-    console.log("finished")
+  let taskArchiveButtonContainer = ""
+  if (gradeATasks.every(task => task.isCompleted) && gradeBTasks.every(task => task.isCompleted) && gradeCTasks.every(task => task.isCompleted) && gradeDTasks.every(task => task.isCompleted)) {
+    taskArchiveButtonContainer = 
+      <button onClick={() => {
+        const foundList = lists.find(list => list.id === parseInt(ViewListRef.current.value), 10)
+        patchList({
+          id: foundList.id,
+          archived: true
+        })
+      }}>Archive List</button>
+    
   }
 
 
@@ -157,6 +195,15 @@ export default () => {
     </>
   }
 
+  const constructNewList = () => {
+    addList({
+      name: listNameRef.current.value,
+      userId: parseInt(localStorage.getItem("user"), 10),
+      archived: false
+    })
+  }
+
+
 
   const constructNewTask = () => {
     addTask({
@@ -164,8 +211,9 @@ export default () => {
       userId: parseInt(localStorage.getItem("user"), 10),
       grade: singleTask.grade,
       taskDetail: "",
-      completionDate: undefined,
-      isCompleted: false
+      completionDate: "",
+      isCompleted: false,
+      listId: parseInt(singleTask.list, 10)
     })
   }
 
@@ -184,7 +232,17 @@ export default () => {
 
   return (
     <section>
-      <h1>List</h1>
+      <h1>My Lists</h1>
+      <button onClick={() => {
+        let trueVariable = true;
+        let falseVariable = false;
+        if (addListButtonClicked === false) {
+          setAddListButtonClicked(trueVariable)
+        } else {
+          setAddListButtonClicked(falseVariable)
+        }
+      }
+      }>{addListButtonClicked ? "Close" : "Add a List"}</button>
       <button onClick={() => {
         let trueVariable = true;
         let falseVariable = false;
@@ -204,9 +262,58 @@ export default () => {
         }
       }}>{showAllButtonClicked ? "Show current priority" : "Show all tasks"}</button>
       {/* <button onClick={() => markAllCompleted()}>Mark all as Complete</button> */}
+      {addListButtonClicked ? (
+        <form>
+          <fieldset>
+            <div className="form-group">
+              <label htmlFor="listAdd">Add a new List </label>
+              <input type="text" name="listAdd" required autoFocus className="form-control"
+                proptype="varchar"
+                ref={listNameRef}
+                placeholder="Name your List"
+                onChange={handleControlledInputChange}
+                className="form-control"
+              />
+            </div>
+          </fieldset>
+          <button type="submit" onClick={evt => {
+            if (listNameRef.current.value === "") {
+              evt.preventDefault()
+              window.alert("Please name your list")
+            } else {
+              debugger
+              evt.preventDefault()
+              constructNewList()
+              listNameRef.current.value = ""
+              let falseVariable = false
+              setAddListButtonClicked(falseVariable)
+            }
+          }
+          }>Save New List</button>
+        </form>
+      ) : ("")}
       {buttonClicked ? (
         <>
           <form>
+            <fieldset>
+              <div className="form-group">
+                <label htmlFor="list">Add to a list</label>
+                <select
+                  defaultValue="select"
+                  name="list"
+                  id="list"
+                  required
+                  ref={listRef}
+                  onChange={handleControlledInputChange}
+                  className="form-control">
+                  <option value="0">select</option>
+                  {activeLists.map(list => (
+                    <option key={list.id} value={list.id}>
+                      {list.name}
+                    </option>))}
+                </select>
+              </div>
+            </fieldset>
             <fieldset>
               <div className="form-group">
                 <label htmlFor="taskItem">Task Info </label>
@@ -251,6 +358,7 @@ export default () => {
                 constructNewTask()
                 taskRef.current.value = ""
                 gradeRef.current.value = "0"
+
               }
             }
             }>Log new Task</button>
@@ -259,7 +367,16 @@ export default () => {
       ) : (
           <></>
         )}
+      <h4>Currently Viewing 
+        <select ref={ViewListRef} onChange={handleControlledInputChange}>
+        <option value="0">select</option>
+        {activeLists.map(viewList => (
+          <option key={viewList.id} value={viewList.id}>
+            {viewList.name} 
+          </option>))}
+      </select> List</h4>
       {taskList}
+      {taskArchiveButtonContainer}
     </section>
   )
 }
