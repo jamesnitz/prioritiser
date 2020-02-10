@@ -177,7 +177,8 @@ export default (props) => {
 
   const constructNewList = () => {
     addList({
-      name: listNameRef.current.value
+      name: listNameRef.current.value,
+      userId: parseInt(localStorage.getItem("user"), 10)
     })
   }
 
