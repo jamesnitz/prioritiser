@@ -32,6 +32,12 @@ export default (props) => {
   }
 
   let selectedList = parseInt(ViewListRef.current.value, 10)
+
+  const usersLists = lists.filter(list => {
+    if (list.userId === parseInt(localStorage.getItem("user"), 10)) {
+      return list
+    }
+  })
   
   const currentList = tasks.filter(task => {
     if (task.listId === selectedList) {
@@ -285,7 +291,7 @@ export default (props) => {
                   onChange={handleControlledInputChange}
                   className="form-control">
                   <option value="0">select</option>
-                  {lists.map(list => (
+                  {usersLists.map(list => (
                     <option key={list.id} value={list.id}>
                       {list.name}
                     </option>))}
@@ -348,7 +354,7 @@ export default (props) => {
       <h4>Currently Viewing 
         <select ref={ViewListRef} onChange={handleControlledInputChange}>
         <option value="0">select</option>
-        {lists.map(viewList => (
+        {usersLists.map(viewList => (
           <option key={viewList.id} value={viewList.id}>
             {viewList.name} 
           </option>))}
