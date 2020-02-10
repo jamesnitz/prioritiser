@@ -9,22 +9,22 @@ import { ListProvider } from "./list/ListProvider"
 export default () => {
   return (
     <>
-    <TaskProvider>
-      <ListProvider>
-      {/* <Route exact path="/" render={
+      <TaskProvider>
+        <ListProvider>
+              {/* <Route exact path="/" render={
         props => <TaskList />
       }/> */}
-      <Route exact path="/tasks" render={
-        props => <TaskList />
-      }/>
-        <Route path="/archive" render={
-          props => <ArchiveList />
-        } />
-        <Route path="/profile" render={
-          props => <Profile />
-        } />
+              <Route exact path="/tasks" render={
+                props => <TaskList />
+              } />
+              <Route path="/archive" render={
+                props => <ArchiveList />
+              } />
+              <Route path="/profile" render={
+                props => <Profile />
+              } />
         </ListProvider>
-    </TaskProvider>
+      </TaskProvider>
     </>
   )
 }

@@ -21,7 +21,26 @@ export const ListProvider = (props) => {
         })
             .then(getLists)
     }
+
+    const patchList = list => {
+      return fetch(`http://localhost:8088/lists/${list.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(list)
+      })
+        .then(getLists)
+    }
+
    
+    const deleteList = list => {
+      return fetch(`http://localhost:8088/lists/${list.id}`, {
+        method: "DELETE",
+      })
+        .then(getLists)
+    }
+
     useEffect(() => {
         getLists()
     }, [])
@@ -32,7 +51,7 @@ export const ListProvider = (props) => {
 
     return (
       <ListContext.Provider value = {{
-        lists, addList, 
+        lists, addList, deleteList, patchList
       }}>
           {props.children}
       </ListContext.Provider>

@@ -6,7 +6,7 @@ import { ListProvider, ListContext } from "../list/ListProvider"
 export default (props) => {
 
   const { tasks, addTask, patchTask } = useContext(TaskContext)
-  const { lists, addList } = useContext(ListContext)
+  const { lists, addList, patchList } = useContext(ListContext)
 
   const activeUser = parseInt(localStorage.getItem("user"), 10)
   const [buttonClicked, setButtonClicked] = useState(false)
@@ -38,16 +38,22 @@ export default (props) => {
       return list
     }
   })
+
+  const activeLists = usersLists.filter(list => {
+    if (list.archived === false) {
+      return list
+    }
+  })
   
-  const currentList = tasks.filter(task => {
+  const currentListTasks = tasks.filter(task => {
     if (task.listId === selectedList) {
       return task
     }
   })
   
-  console.log(currentList)
   
-  const foundTasks = currentList.filter(task => {
+  
+  const foundTasks = currentListTasks.filter(task => {
     if (task.userId === activeUser) {
       return task
     }
@@ -77,11 +83,12 @@ export default (props) => {
 
 
   let taskList = ""
-  if (foundTasks.length < 1) {
-    taskList = <>
-      <h1>Make a list, brah</h1>
-    </>
-  }
+
+  // if (foundTasks.length < 1) {
+  //   taskList = <>
+  //     <h1>Make a list, brah</h1>
+  //   </>
+  // }
 
 
 
@@ -128,10 +135,17 @@ export default (props) => {
       </section>
     </>
   }
-
+  let taskArchiveButtonContainer = ""
   if (gradeATasks.every(task => task.isCompleted) && gradeBTasks.every(task => task.isCompleted) && gradeCTasks.every(task => task.isCompleted) && gradeDTasks.every(task => task.isCompleted)) {
-    //This is where tasks need to then be sent to the archive! Do this later
-    console.log("finished")
+    taskArchiveButtonContainer = 
+      <button onClick={() => {
+        const foundList = lists.find(list => list.id === parseInt(ViewListRef.current.value), 10)
+        patchList({
+          id: foundList.id,
+          archived: true
+        })
+      }}>Archive List</button>
+    
   }
 
 
@@ -184,7 +198,8 @@ export default (props) => {
   const constructNewList = () => {
     addList({
       name: listNameRef.current.value,
-      userId: parseInt(localStorage.getItem("user"), 10)
+      userId: parseInt(localStorage.getItem("user"), 10),
+      archived: false
     })
   }
 
@@ -266,6 +281,7 @@ export default (props) => {
               evt.preventDefault()
               window.alert("Please name your list")
             } else {
+              debugger
               evt.preventDefault()
               constructNewList()
               listNameRef.current.value = ""
@@ -291,7 +307,7 @@ export default (props) => {
                   onChange={handleControlledInputChange}
                   className="form-control">
                   <option value="0">select</option>
-                  {usersLists.map(list => (
+                  {activeLists.map(list => (
                     <option key={list.id} value={list.id}>
                       {list.name}
                     </option>))}
@@ -354,12 +370,13 @@ export default (props) => {
       <h4>Currently Viewing 
         <select ref={ViewListRef} onChange={handleControlledInputChange}>
         <option value="0">select</option>
-        {usersLists.map(viewList => (
+        {activeLists.map(viewList => (
           <option key={viewList.id} value={viewList.id}>
             {viewList.name} 
           </option>))}
       </select> List</h4>
       {taskList}
+      {taskArchiveButtonContainer}
     </section>
   )
 }
