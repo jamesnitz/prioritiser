@@ -2,7 +2,7 @@ import React, { useContext, useRef, useState } from 'react'
 import { TaskContext } from './TaskProvider'
 import Modal from 'react-bootstrap/Modal'
 import "./Task.css"
-
+import moment from "moment"
 
 export default ({ task }) => {
   const [show, setShow] = useState(false);
@@ -75,7 +75,8 @@ export default ({ task }) => {
                 grade: gradeRef.current.value,
                 taskDetail: detailRef.current.value,
                 completionDate: task.completionDate,
-                isCompleted: task.isCompleted
+                isCompleted: task.isCompleted,
+                listId: task.listId
               })
             }}
             >Save</button>
@@ -107,7 +108,7 @@ export default ({ task }) => {
                   patchTask({
                     id: task.id,
                     isCompleted: isCompleted.current.checked,
-                    completionDate: "Today"
+                    completionDate: moment(Date.now()).format("MM/DD/YYYY")
                   })
                 } else {
                   patchTask({

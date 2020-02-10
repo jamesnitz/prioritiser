@@ -1,19 +1,27 @@
 import React, { useContext, useState, useRef } from "react"
 import { TaskContext } from "./TaskProvider"
 import Task from "./Task"
+import { ListProvider, ListContext } from "../list/ListProvider"
 
-export default () => {
+export default (props) => {
+
   const { tasks, addTask, patchTask } = useContext(TaskContext)
+  const { lists, addList } = useContext(ListContext)
+  
   const activeUser = parseInt(localStorage.getItem("user"), 10)
   const [buttonClicked, setButtonClicked] = useState(false)
+  const [addListButtonClicked, setAddListButtonClicked] = useState(false)
   const [showAllButtonClicked, setShowAllButtonClicked] = useState(false)
   const [singleTask, setTask] = useState({})
   const taskRef = useRef("")
+  const listNameRef = useRef("")
+  const listRef = useRef(0)
   const gradeRef = useRef(0)
 
   const handleControlledInputChange = (event) => {
     const newTask = Object.assign({}, singleTask)
     newTask[event.target.name] = event.target.value
+    console.log(newTask)
     setTask(newTask)
   }
 
@@ -63,7 +71,7 @@ export default () => {
 
 
 
-  if (gradeATasks.find(task => !task.isCompleted )) {
+  if (gradeATasks.find(task => !task.isCompleted)) {
     taskList = <>
       <section>
         <h4>A Priority</h4>
@@ -83,7 +91,7 @@ export default () => {
         })}
       </section>
     </>
-  } else if (gradeATasks.every(task => task.isCompleted) && gradeBTasks.every(task => task.isCompleted) && gradeCTasks.find(task => !task.isCompleted)) { 
+  } else if (gradeATasks.every(task => task.isCompleted) && gradeBTasks.every(task => task.isCompleted) && gradeCTasks.find(task => !task.isCompleted)) {
     taskList = <>
       <section>
         <h4>C Priority</h4>
@@ -105,7 +113,7 @@ export default () => {
     </>
   }
 
-  if  (gradeATasks.every(task => task.isCompleted) && gradeBTasks.every(task => task.isCompleted) && gradeCTasks.every(task => task.isCompleted) && gradeDTasks.every(task => task.isCompleted)) {
+  if (gradeATasks.every(task => task.isCompleted) && gradeBTasks.every(task => task.isCompleted) && gradeCTasks.every(task => task.isCompleted) && gradeDTasks.every(task => task.isCompleted)) {
     //This is where tasks need to then be sent to the archive! Do this later
     console.log("finished")
   }
@@ -157,6 +165,13 @@ export default () => {
     </>
   }
 
+const constructNewList = () => {
+  addList({
+    name: listNameRef.current.value
+  })
+}
+  
+
 
   const constructNewTask = () => {
     addTask({
@@ -164,8 +179,9 @@ export default () => {
       userId: parseInt(localStorage.getItem("user"), 10),
       grade: singleTask.grade,
       taskDetail: "",
-      completionDate: undefined,
-      isCompleted: false
+      completionDate: "",
+      isCompleted: false,
+      listId: parseInt(singleTask.list, 10)
     })
   }
 
@@ -188,6 +204,16 @@ export default () => {
       <button onClick={() => {
         let trueVariable = true;
         let falseVariable = false;
+        if (addListButtonClicked === false) {
+          setAddListButtonClicked(trueVariable)
+        } else {
+          setAddListButtonClicked(falseVariable)
+        }
+      }
+    }>{addListButtonClicked ? "Close" : "Add a List"}</button>
+      <button onClick={() => {
+        let trueVariable = true;
+        let falseVariable = false;
         if (buttonClicked === false) {
           setButtonClicked(trueVariable)
         } else {
@@ -204,9 +230,50 @@ export default () => {
         }
       }}>{showAllButtonClicked ? "Show current priority" : "Show all tasks"}</button>
       {/* <button onClick={() => markAllCompleted()}>Mark all as Complete</button> */}
+      {addListButtonClicked ? (
+        <form>
+          <fieldset>
+            <div className="form-group">
+              <label htmlFor="listAdd">Add a new List </label>
+              <input type="text" name="listAdd" required autoFocus className="form-control"
+                proptype="varchar"
+                ref={listNameRef}
+                placeholder="Name your List"
+                onChange={handleControlledInputChange}
+                className="form-control"
+              />
+            </div>
+          </fieldset>
+          <button type="submit" onClick={evt => {
+                evt.preventDefault()
+                constructNewList()
+                listNameRef.current.value = ""  
+            }
+            }>Save New List</button>
+        </form>
+      ) : ("")}
       {buttonClicked ? (
         <>
           <form>
+            <fieldset>
+              <div className="form-group">
+                <label htmlFor="list">Add to a list</label>
+                <select
+                  defaultValue="select"
+                  name="list"
+                  id="list"
+                  required
+                  ref={listRef}
+                  onChange={handleControlledInputChange}
+                  className="form-control">
+                  <option value="0">select</option>
+                  {lists.map(list => (
+                    <option key={list.id} value={list.id}>
+                      {list.name}
+                    </option>))}
+                </select>
+              </div>
+            </fieldset>
             <fieldset>
               <div className="form-group">
                 <label htmlFor="taskItem">Task Info </label>
@@ -251,6 +318,7 @@ export default () => {
                 constructNewTask()
                 taskRef.current.value = ""
                 gradeRef.current.value = "0"
+
               }
             }
             }>Log new Task</button>
