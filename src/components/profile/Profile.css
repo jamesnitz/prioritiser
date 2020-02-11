@@ -1,0 +1,7 @@
+.profileContainer{
+  display: flex;
+}
+
+.graphContainer{
+  flex-basis: 50%;
+}
