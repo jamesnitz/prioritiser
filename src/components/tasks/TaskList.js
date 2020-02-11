@@ -1,7 +1,7 @@
 import React, { useContext, useState, useRef } from "react"
 import { TaskContext } from "./TaskProvider"
 import Task from "./Task"
-import { ListProvider, ListContext } from "../list/ListProvider"
+import { ListContext } from "../list/ListProvider"
 
 export default (props) => {
 
@@ -83,12 +83,6 @@ export default (props) => {
 
 
   let taskList = ""
-
-  // if (foundTasks.length < 1) {
-  //   taskList = <>
-  //     <h1>Make a list, brah</h1>
-  //   </>
-  // }
 
 
 
