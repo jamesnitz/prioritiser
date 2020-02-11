@@ -7,19 +7,16 @@ export default () => {
   const activeUser = parseInt(localStorage.getItem("user"), 10)
   const keywordRef = useRef("")
   const [ taskContainer, setTaskContainer ] = useState("")
-
   const completedTasks = tasks.filter(task => {
     if (task.list.archived === true) {
       return task
     }
-  })
-
+})
   const CompletedUserTasks = completedTasks.filter(task => {
     if (task.userId === activeUser) {
       return task
     }
   })
-
 
   return (
     <section>
