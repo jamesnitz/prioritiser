@@ -1,11 +1,13 @@
 import React, { useContext, useRef, useState } from "react"
 import { TaskContext } from "../tasks/TaskProvider"
 import Archive from "./Archive"
+import moment from "moment"
 
 export default () => {
   const { tasks } = useContext(TaskContext)
   const activeUser = parseInt(localStorage.getItem("user"), 10)
   const keywordRef = useRef("")
+  const dateRef = useRef("")
   const [ taskContainer, setTaskContainer ] = useState("")
   const completedTasks = tasks.filter(task => {
     if (task.list.archived === true) {
@@ -39,8 +41,24 @@ export default () => {
             setTaskContainer("")
           }
         }}></input>
-        <input type="date"></input>
-        <button>Search Entry</button>
+        <input ref={dateRef} type="date"></input>
+        <button onClick={() => {
+          console.log(dateRef.current.value)
+          setTaskContainer(
+            <section>
+              <button onClick={() => {
+                setTaskContainer("")
+              }}>Clear</button>
+                {
+                  CompletedUserTasks.map(task => {
+                    if (task.completionDate === moment(dateRef.current.value).format("MM/DD/YYYY") ) {
+                      return <Archive key={task.id}
+                        task={task} />
+                    }
+                  })}
+              </section>
+          )
+        }}>Search Entry</button>
       </div>
       <div className="taskContainer">{taskContainer}</div>
     </section>
