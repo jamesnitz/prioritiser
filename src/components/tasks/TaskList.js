@@ -1,7 +1,7 @@
 import React, { useContext, useState, useRef } from "react"
 import { TaskContext } from "./TaskProvider"
 import Task from "./Task"
-import { ListProvider, ListContext } from "../list/ListProvider"
+import { ListContext } from "../list/ListProvider"
 
 export default (props) => {
 
@@ -84,12 +84,6 @@ export default (props) => {
 
   let taskList = ""
 
-  // if (foundTasks.length < 1) {
-  //   taskList = <>
-  //     <h1>Make a list, brah</h1>
-  //   </>
-  // }
-
 
 
 
@@ -135,8 +129,9 @@ export default (props) => {
       </section>
     </>
   }
+
   let taskArchiveButtonContainer = ""
-  if (gradeATasks.every(task => task.isCompleted) && gradeBTasks.every(task => task.isCompleted) && gradeCTasks.every(task => task.isCompleted) && gradeDTasks.every(task => task.isCompleted)) {
+  if (foundTasks.length >= 1 && gradeATasks.every(task => task.isCompleted) && gradeBTasks.every(task => task.isCompleted) && gradeCTasks.every(task => task.isCompleted) && gradeDTasks.every(task => task.isCompleted)) {
     taskArchiveButtonContainer = 
       <button onClick={() => {
         const foundList = lists.find(list => list.id === parseInt(ViewListRef.current.value), 10)
@@ -146,7 +141,7 @@ export default (props) => {
         })
       }}>Archive List</button>
     
-  }
+  } 
 
 
 
@@ -219,10 +214,9 @@ export default (props) => {
 
 
   // const markAllCompleted = () => {
-  //   foundTasks.map(task => {
+  //   foundTasks.forEach(task => {
   //     if (task.isCompleted === false) {
-  //       debugger
-  //       return patchTask({
+  //        patchTask({
   //         id: task.id,
   //         isCompleted: true
   //       })
@@ -281,7 +275,6 @@ export default (props) => {
               evt.preventDefault()
               window.alert("Please name your list")
             } else {
-              debugger
               evt.preventDefault()
               constructNewList()
               listNameRef.current.value = ""

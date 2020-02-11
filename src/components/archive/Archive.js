@@ -1,5 +1,13 @@
-export default () => {
+import React from "react"
+
+
+export default ({task}) => {
+  console.log(task)
   return (
-    <h3>Hey</h3>
+    <section>
+    <h3>{task.list.name}</h3>
+    <address>{task.taskItem}</address>
+    <address>{task.taskDetail}</address>
+    </section>
   )
 }

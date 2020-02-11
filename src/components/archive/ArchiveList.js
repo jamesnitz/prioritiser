@@ -1,22 +1,21 @@
-import React, { useContext, useRef } from "react"
+import React, { useContext, useRef, useState } from "react"
 import { TaskContext } from "../tasks/TaskProvider"
-import Task from "../tasks/Task"
-
-
+import Archive from "./Archive"
+import moment from "moment"
 
 export default () => {
-  
-  const {tasks} = useContext(TaskContext)
+  const { tasks } = useContext(TaskContext)
   const activeUser = parseInt(localStorage.getItem("user"), 10)
   const keywordRef = useRef("")
-  const foundTasks = tasks.filter(task => {
-    if (task.userId === activeUser) {
+  const dateRef = useRef("")
+  const [ taskContainer, setTaskContainer ] = useState("")
+  const completedTasks = tasks.filter(task => {
+    if (task.list.archived === true) {
       return task
-    } 
-  })
-
-  const completedTasks = foundTasks.filter(task => {
-    if (task.isCompleted === true) {
+    }
+})
+  const CompletedUserTasks = completedTasks.filter(task => {
+    if (task.userId === activeUser) {
       return task
     }
   })
@@ -25,22 +24,43 @@ export default () => {
     <section>
       <h1>Archive Page</h1>
       <div className="searchContainer">
-      <input type="text" placeholder="search by keyword" ref={keywordRef} onKeyPress={(event) => {
-        if (event.charCode === 13) {
-          console.log("i'm doing it")
-          //MAKE ARCHIVE FUNCTION HERE
-          completedTasks.map(task => {
-            if (task.taskItem.includes(keywordRef.current.value.toUpperCase()) || task.taskDetail.includes(keywordRef.current.value.toUpperCase())) {
-              return <Task key={task.id}
-              task={task} />
-            } 
-          })
-        }
-      }}></input>
-      <input type="date"></input>
-      <button>Search Entry</button>
+        <input type="text" defaultValue={""} placeholder="search by keyword" ref={keywordRef} onKeyDown={(event) => {
+          if (event.keyCode === 13 && keywordRef.current.value !== "") {
+            setTaskContainer(
+              <section>
+                {
+                  CompletedUserTasks.map(task => {
+                    if (task.taskItem.includes(keywordRef.current.value) || task.taskDetail.includes(keywordRef.current.value)) {
+                      return <Archive key={task.id}
+                        task={task} />
+                    }
+                  })}
+              </section>
+            )
+          } else {
+            setTaskContainer("")
+          }
+        }}></input>
+        <input ref={dateRef} type="date"></input>
+        <button onClick={() => {
+          console.log(dateRef.current.value)
+          setTaskContainer(
+            <section>
+              <button onClick={() => {
+                setTaskContainer("")
+              }}>Clear</button>
+                {
+                  CompletedUserTasks.map(task => {
+                    if (task.completionDate === moment(dateRef.current.value).format("MM/DD/YYYY") ) {
+                      return <Archive key={task.id}
+                        task={task} />
+                    }
+                  })}
+              </section>
+          )
+        }}>Search Entry</button>
       </div>
-      <div className="taskContainer"></div>
+      <div className="taskContainer">{taskContainer}</div>
     </section>
   )
 }
