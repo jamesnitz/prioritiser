@@ -6,19 +6,18 @@ import { UserContext } from '../users/UserProvider';
 
 
 export default () => {
+
   const { tasks } = useContext(TaskContext)
-  const { users } =useContext(UserContext)
+  const { users } = useContext(UserContext)
   const activeUser = parseInt(localStorage.getItem("user"), 10)
   const CurrentUserObject = users.find(user => user.id === activeUser) || {}
-
-
   const userTasks = tasks.filter(task => {
     if (task.userId === activeUser) {
       return task
     }
   })
 
- const completedUserTasks = userTasks.filter(task => {
+  const completedUserTasks = userTasks.filter(task => {
     if (task.isCompleted === true) {
       return task
     }
@@ -26,7 +25,6 @@ export default () => {
 
   let labelDataArray = []
   let dataCountArray = []
-
 
   const dataBuilder = () => {
     let dateObject = {}
@@ -36,8 +34,6 @@ export default () => {
       } else {
         dateObject[task.completionDate] = 1
       }
-      console.log(dateObject, "TACO")
-      
     })
     for (const key in dateObject) {
       labelDataArray.push(key)
@@ -46,10 +42,7 @@ export default () => {
   }
   dataBuilder()
 
-  console.log("labels", labelDataArray)
-  console.log("counts", dataCountArray)
-
-    const data = {
+  const data = {
     labels: labelDataArray,
     datasets: [
       {
@@ -75,7 +68,7 @@ export default () => {
       }
     ]
   };
-  return(
+  return (
     <>
       <h1>Profile Page</h1>
       <img src={CurrentUserObject.picture} />

@@ -5,24 +5,24 @@ import moment from "moment"
 
 export default () => {
 
-  const { tasks,  } = useContext(TaskContext);
+  const { tasks } = useContext(TaskContext);
   const activeUser = parseInt(localStorage.getItem("user"), 10);
   const keywordRef = useRef("");
   const dateRef = useRef("");
-  const [ taskContainer, setTaskContainer ] = useState("");
+  const [taskContainer, setTaskContainer] = useState("");
 
   const completedTasks = tasks.filter(task => {
     if (task.list.archived === true) {
       return task
     }
-});
-  console.log(completedTasks);
+  });
+
   const completedUserTasks = completedTasks.filter(task => {
     if (task.userId === activeUser) {
       return task
     }
   });
-  
+
   return (
     <section>
       <h1>Archive Page</h1>
@@ -51,14 +51,14 @@ export default () => {
               <button onClick={() => {
                 setTaskContainer("")
               }}>Clear</button>
-                {
-                  completedUserTasks.map(task => {
-                    if (task.completionDate === moment(dateRef.current.value).format("MM/DD/YYYY") ) {
-                      return <Archive key={task.id}
-                        task={task} />
-                    }
-                  })}
-              </section>
+              {
+                completedUserTasks.map(task => {
+                  if (task.completionDate === moment(dateRef.current.value).format("MM/DD/YYYY")) {
+                    return <Archive key={task.id}
+                      task={task} />
+                  }
+                })}
+            </section>
           )
         }}>Search Entry</button>
       </div>
