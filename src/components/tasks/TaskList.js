@@ -5,9 +5,8 @@ import { ListContext } from "../list/ListProvider"
 
 export default (props) => {
 
-  const { tasks, addTask, patchTask } = useContext(TaskContext)
+  const { tasks, addTask, patchTask, getTasks } = useContext(TaskContext)
   const { lists, addList, patchList } = useContext(ListContext)
-
   const activeUser = parseInt(localStorage.getItem("user"), 10)
   const [buttonClicked, setButtonClicked] = useState(false)
   const [addListButtonClicked, setAddListButtonClicked] = useState(false)
@@ -138,7 +137,7 @@ export default (props) => {
         patchList({
           id: foundList.id,
           archived: true
-        })
+        }).then(getTasks)
       }}>Archive List</button>
     
   } 
@@ -346,6 +345,9 @@ export default (props) => {
               } else if (gradeRef.current.value === "0") {
                 window.alert("Please assign a grade")
                 evt.preventDefault()
+              } else if (listRef.current.value === "0") {
+                evt.preventDefault()
+                window.alert("Please select a list")
               } else {
                 evt.preventDefault()
                 constructNewTask()

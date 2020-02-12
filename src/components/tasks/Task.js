@@ -8,6 +8,7 @@ export default ({ task }) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true)
+  
   const { deleteTask, patchTask, editTask } = useContext(TaskContext)
   const isCompleted = useRef(Boolean)
   const itemRef = useRef("")
