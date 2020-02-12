@@ -2,11 +2,16 @@ import React, { useContext } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { TaskContext } from '../tasks/TaskProvider';
 import './Profile.css'
+import { UserContext } from '../users/UserProvider';
 
 
 export default () => {
   const { tasks } = useContext(TaskContext)
+  const { users } =useContext(UserContext)
   const activeUser = parseInt(localStorage.getItem("user"), 10)
+  const CurrentUserObject = users.find(user => user.id === activeUser) || {}
+
+
   const userTasks = tasks.filter(task => {
     if (task.userId === activeUser) {
       return task
@@ -19,13 +24,9 @@ export default () => {
     }
   })
 
-  let completedTasksDatesArray = []
   let labelDataArray = []
   let dataCountArray = []
 
-  //  completedUserTasks.forEach(task => {
-  //      return completedTasksDatesArray.push(task.completionDate)
-  //  })
 
   const dataBuilder = () => {
     let dateObject = {}
@@ -77,6 +78,8 @@ export default () => {
   return(
     <>
       <h1>Profile Page</h1>
+      <img src={CurrentUserObject.picture} />
+
       <section className="profileContainer">
         <div className="graphContainer">
           <Bar data={data} />

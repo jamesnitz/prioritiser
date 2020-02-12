@@ -8,6 +8,7 @@ export default ({ task }) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true)
+  
   const { deleteTask, patchTask, editTask } = useContext(TaskContext)
   const isCompleted = useRef(Boolean)
   const itemRef = useRef("")
@@ -78,6 +79,7 @@ export default ({ task }) => {
                 isCompleted: task.isCompleted,
                 listId: task.listId
               })
+              setShow(false)
             }}
             >Save</button>
             <button

@@ -2,7 +2,6 @@ import React from "react"
 
 
 export default ({task}) => {
-  console.log(task)
   return (
     <section>
     <h3>{task.list.name}</h3>
