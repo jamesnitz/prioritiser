@@ -79,6 +79,7 @@ export default ({ task }) => {
                 isCompleted: task.isCompleted,
                 listId: task.listId
               })
+              setShow(false)
             }}
             >Save</button>
             <button

@@ -1,4 +1,4 @@
-import React, { useRef } from "react"
+import React, { useRef, useState } from "react"
 
 // import "./Login.css"
 
@@ -8,7 +8,26 @@ const Register = props => {
     const email = useRef()
     const password = useRef()
     const verifyPassword = useRef()
-   
+    const [image, setImage] =useState("")
+    const [loading, setLoading] = useState(false)
+
+    const uploadImage = async e => {
+        const files = e.target.files
+        const data = new FormData()
+        data.append("file", files[0])
+        data.append('upload_preset', 'prioritiser')
+        setLoading(true)
+        const res = await fetch(
+            'https://api.cloudinary.com/v1_1/durw1hitu/image/upload', 
+            {
+                method: "POST",
+                body: data
+            }
+        )
+        const file = await res.json()
+        setImage(file.secure_url)
+        setLoading(false)
+    }
 
     const existingUserCheck = () => {
         return fetch(`http://localhost:8088/users?email=${email.current.value}`)
@@ -35,7 +54,9 @@ const Register = props => {
                         body: JSON.stringify({
                             email: email.current.value,
                             password: password.current.value,
-                            name: `${firstName.current.value} ${lastName.current.value}`
+                            name: `${firstName.current.value} ${lastName.current.value}`,
+                            picture: image
+
                         })
                     })
                         .then(_ => _.json())
@@ -95,7 +116,20 @@ const Register = props => {
                         placeholder="Verify password"
                         required />
                 </fieldset>
-                
+                <fieldset>
+                    <label htmlFor="file"> Profile Picture</label>
+                    <input type="file"
+                        name="file"
+                        className="form-control"
+                        placeholder="upload a file"
+                        onChange={uploadImage}
+                        required />
+                        {loading? (
+                            <h3>Loading...</h3>
+                        ): (
+                            <img src={image} style={{width: '300px'}} />
+                        )}
+                </fieldset>
 
                 <fieldset>
                     <button type="submit">
