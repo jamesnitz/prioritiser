@@ -2,11 +2,19 @@ import React, { useContext, useState, useRef } from "react"
 import { TaskContext } from "./TaskProvider"
 import Task from "./Task"
 import { ListContext } from "../list/ListProvider"
+import Modal from 'react-bootstrap/Modal'
+import Alert from 'react-bootstrap/Alert'
+import { SharedListContext } from "../sharedLists/SharedListProvider"
+import { UserContext } from "../users/UserProvider"
+export default () => {
 
-export default (props) => {
-
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true)
   const { tasks, addTask, patchTask, getTasks } = useContext(TaskContext)
   const { lists, addList, patchList } = useContext(ListContext)
+  const {addSharedList} = useContext(SharedListContext)
+  const { users } = useContext(UserContext)
   const activeUser = parseInt(localStorage.getItem("user"), 10)
   const [buttonClicked, setButtonClicked] = useState(false)
   const [addListButtonClicked, setAddListButtonClicked] = useState(false)
@@ -17,11 +25,11 @@ export default (props) => {
   const ViewListRef = useRef(0)
   const listRef = useRef(0)
   const gradeRef = useRef(0)
-
+  const sharedEmailRef = useRef("")
+  const sharedlListRef = useRef("")
   const handleControlledInputChange = (event) => {
     const newTask = Object.assign({}, singleTask)
     newTask[event.target.name] = event.target.value
-    console.log(newTask)
     setTask(newTask)
   }
 
@@ -43,15 +51,15 @@ export default (props) => {
       return list
     }
   })
-  
+
   const currentListTasks = tasks.filter(task => {
     if (task.listId === selectedList) {
       return task
     }
   })
-  
-  
-  
+
+
+
   const foundTasks = currentListTasks.filter(task => {
     if (task.userId === activeUser) {
       return task
@@ -131,7 +139,7 @@ export default (props) => {
 
   let taskArchiveButtonContainer = ""
   if (foundTasks.length >= 1 && gradeATasks.every(task => task.isCompleted) && gradeBTasks.every(task => task.isCompleted) && gradeCTasks.every(task => task.isCompleted) && gradeDTasks.every(task => task.isCompleted)) {
-    taskArchiveButtonContainer = 
+    taskArchiveButtonContainer =
       <button onClick={() => {
         const foundList = lists.find(list => list.id === parseInt(ViewListRef.current.value), 10)
         patchList({
@@ -139,8 +147,7 @@ export default (props) => {
           archived: true
         }).then(getTasks)
       }}>Archive List</button>
-    
-  } 
+  }
 
 
 
@@ -211,17 +218,21 @@ export default (props) => {
     })
   }
 
-
-  // const markAllCompleted = () => {
-  //   foundTasks.forEach(task => {
-  //     if (task.isCompleted === false) {
-  //        patchTask({
-  //         id: task.id,
-  //         isCompleted: true
-  //       })
-  //     }
-  //   })
-  // }
+  const constructNewsharedList = () => {
+    const sharedEmailName  = sharedEmailRef.current.value
+    const foundUser = users.find(user => user.email === sharedEmailName)
+    if (foundUser === undefined) {
+      window.alert("No matching email found")
+    } else {
+      addSharedList({
+        initiateUser:  parseInt(localStorage.getItem("user"), 10),
+        userId: foundUser.id,
+        listId: parseInt(sharedlListRef.current.value, 10)
+      })
+      
+    }
+    
+  }
 
   return (
     <section>
@@ -254,7 +265,46 @@ export default (props) => {
           setShowAllButtonClicked(showAllFalseVariable)
         }
       }}>{showAllButtonClicked ? "Show current priority" : "Show all tasks"}</button>
-      {/* <button onClick={() => markAllCompleted()}>Mark all as Complete</button> */}
+      <button onClick={handleShow}>Share List</button>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Share A List with Another User</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <label htmlFor="sharedList">Select your list</label>
+          <select
+            defaultValue="select"
+            name="sharedList"
+            ref={sharedlListRef}
+            onChange={handleControlledInputChange}
+            className="form-control">
+            <option value="0">select</option>
+            {activeLists.map(sharedList => (
+              <option key={sharedList.id} value={sharedList.id}>
+                {sharedList.name}
+              </option>))}
+          </select>
+          <label htmlFor="sharedUserEmail">Who would you like to share with?</label>
+          <input
+          ref={sharedEmailRef}
+          name="sharedUserEmail"
+           type="text"></input>
+          <button onClick={(evt) => {
+            if (sharedlListRef.current.value === "0") {
+              evt.preventDefault()
+              window.alert("Please choose a list")
+            } else if (sharedEmailRef === "")  {
+              evt.preventDefault()
+              window.alert("Please enter a user's email")
+            } else {
+              evt.preventDefault()
+              constructNewsharedList()
+              setShow(false)
+              
+            }
+          }}>Share</button>
+        </Modal.Body>
+      </Modal>
       {addListButtonClicked ? (
         <form>
           <fieldset>
@@ -362,14 +412,14 @@ export default (props) => {
       ) : (
           <></>
         )}
-      <h4>Currently Viewing 
+      <h4>Currently Viewing
         <select ref={ViewListRef} onChange={handleControlledInputChange}>
-        <option value="0">select</option>
-        {activeLists.map(viewList => (
-          <option key={viewList.id} value={viewList.id}>
-            {viewList.name} 
-          </option>))}
-      </select> List</h4>
+          <option value="0">select</option>
+          {activeLists.map(viewList => (
+            <option key={viewList.id} value={viewList.id}>
+              {viewList.name}
+            </option>))}
+        </select> List</h4>
       {taskList}
       {taskArchiveButtonContainer}
     </section>

@@ -5,3 +5,8 @@
 .graphContainer{
   flex-basis: 50%;
 }
+
+.sharedListContainer{
+  display: flex;
+  margin: 5px;
+}

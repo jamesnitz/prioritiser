@@ -92,8 +92,6 @@ export default ({ task }) => {
             Delete Task
           </button>
           </Modal.Body>
-          <Modal.Footer>
-          </Modal.Footer>
         </Modal>
         <address className="checkboxContainer">
           <input
