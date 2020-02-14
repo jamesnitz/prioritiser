@@ -1,0 +1,29 @@
+.taskListContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 450px;
+  background-color: white;
+  padding: 15pt;
+  border-radius: 5pt;
+  margin: auto;
+  background-color: thistle;
+}
+
+.showAllListSection{
+  width: 450px;
+  background-color: rgba(245, 245, 3, 0.425);
+  padding: 20px;
+  padding-right: 5px;
+}
+
+.listButtons{
+  width: 440px;
+  margin-left: 10px;
+  padding-left: 25px;
+}
+
+.currentViewSelect{
+  background-color: thistle;
+}
+

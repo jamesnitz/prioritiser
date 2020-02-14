@@ -18,8 +18,9 @@ export default ({ task }) => {
   
 
   return (
-    <section> 
+    <main> 
       <div className="taskContainer">
+        <section className="taskItemContainer">
         <address className={task.isCompleted ? "completed taskItem" : "notcompleted taskItem"} onClick={handleShow}> {task.taskItem}</address>
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
@@ -119,8 +120,9 @@ export default ({ task }) => {
             } />
 
         </address>
+        </section>  
       </div>
 
-    </section>
+    </main>
   )
 }

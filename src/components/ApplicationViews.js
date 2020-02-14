@@ -18,6 +18,9 @@ export default () => {
       }/> */}
             <UserProvider>
           <SharedListProvider>
+            <Route exact path="/" render={
+              props => <TaskList />
+            } />
             <Route exact path="/tasks" render={
               props => <TaskList />
             } />

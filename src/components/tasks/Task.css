@@ -1,6 +1,8 @@
 .taskContainer{
   display: flex;
   margin: 10px;
+  border-bottom: 1px solid rgb(5, 182, 236);
+
 }
 
 .taskGrade{
@@ -9,6 +11,10 @@
 
 .taskItem{
   margin: 5px;
+}
+
+.taskItemContainer{
+  display: flex;
 }
 
 .taskItem:hover{
