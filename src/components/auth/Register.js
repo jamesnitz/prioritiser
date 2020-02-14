@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react"
+import {Button} from "react-bootstrap"
 
-// import "./Login.css"
+import "./Login.css"
 
 const Register = props => {
     const firstName = useRef()
@@ -73,54 +74,54 @@ const Register = props => {
     }
 
     return (
-        <main style={{ textAlign: "center" }}>
-            <form className="form--login" onSubmit={handleRegister}>
-                <h1 className="h3 mb-3 font-weight-normal">Please Register</h1>
+        <main  className="registerContainer" style={{ textAlign: "center" }}>
+            <form className="form--login " onSubmit={handleRegister}>
+                <h1 className="h3 mb-3 font-weight-normal registerHeader">Please Register</h1>
                 <fieldset>
                     <label htmlFor="firstName"> First Name </label>
                     <input ref={firstName} type="text"
                         name="firstName"
-                        className="form-control"
+                        className="form-control registerUser"
                         placeholder="First name"
                         required autoFocus />
                 </fieldset>
-                <fieldset>
+                <fieldset className="registerEmailContainer">
                     <label htmlFor="lastName"> Last Name </label>
                     <input ref={lastName} type="text"
                         name="lastName"
-                        className="form-control"
+                        className="form-control registerEmail"
                         placeholder="Last name"
                         required />
                 </fieldset>
-                <fieldset>
+                <fieldset className="registerPassContainer">
                     <label htmlFor="inputEmail"> Email address </label>
                     <input ref={email} type="email"
                         name="email"
-                        className="form-control"
+                        className="form-control registerPass"
                         placeholder="Email address"
                         required />
                 </fieldset>
-                <fieldset>
+                <fieldset className="confirmPassContainer">
                     <label htmlFor="inputPassword"> Password </label>
                     <input ref={password} type="password"
                         name="password"
-                        className="form-control"
+                        className="form-control confirmPass"
                         placeholder="Password"
                         required />
                 </fieldset>
-                <fieldset>
+                <fieldset className="confirmPassContainer">
                     <label htmlFor="verifyPassword"> Verify Password </label>
                     <input ref={verifyPassword} type="password"
                         name="verifyPassword"
-                        className="form-control"
+                        className="form-control confirmPass"
                         placeholder="Verify password"
                         required />
                 </fieldset>
-                <fieldset>
+                <fieldset className="pictureContainer">
                     <label htmlFor="file"> Profile Picture</label>
                     <input type="file"
                         name="file"
-                        className="form-control"
+                        className="form-control profilePicture"
                         placeholder="upload a file"
                         onChange={uploadImage}
                         required />
@@ -132,7 +133,7 @@ const Register = props => {
                 </fieldset>
 
                 <fieldset>
-                    <button type="submit">
+                    <button className="btn btn-primary registerButton" type="submit">
                         Sign in
                     </button>
                 </fieldset>

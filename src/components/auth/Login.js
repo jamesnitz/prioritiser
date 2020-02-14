@@ -1,7 +1,7 @@
 import React, { useRef } from "react"
 import { Link } from "react-router-dom";
-// import "./Login.css"
-
+import "./Login.css"
+import {Button} from "react-bootstrap"
 
 const Login = props => {
     const email = useRef()
@@ -33,38 +33,40 @@ const Login = props => {
     }
 
     return (
-        <main className="container--login">
+        <>
+            <h1 className="titleHeader">Prioritiser</h1>
+        <main className=" form-group loginContainer">
             <section>
                 <form className="form--login" onSubmit={handleLogin}>
-                    <h1>Prioritiser</h1>
-                    <h2>Please sign in</h2>
-                    <fieldset>
+                    <h5>Please sign in</h5>
+                    <fieldset className="logInUserContainer">
                         <label htmlFor="inputEmail"> Email address </label>
                         <input ref={email} type="email"
                             id="email"
-                            className="form-control"
+                            className="form-control logInUser"
                             placeholder="Email address"
                             required autoFocus />
                     </fieldset>
-                    <fieldset>
+                    <fieldset className="logInPassContainer">
                         <label htmlFor="inputPassword"> Password </label>
                         <input ref={password} type="password"
                             id="password"
-                            className="form-control"
+                            className="form-control logInPass"
                             placeholder="Password"
                             required />
                     </fieldset>
                     <fieldset>
-                        <button type="submit">
+                        <Button type="submit logInBUtton btn btn-primary">
                             Sign in
-                    </button>
+                    </Button>
                     </fieldset>
                 </form>
             </section>
             <section className="link--register">
-                <Link to="/register">Need an account?</Link>
+                <Link to="/register">Sign Up</Link>
             </section>
         </main>
+        </>
     )
 }
 export default Login

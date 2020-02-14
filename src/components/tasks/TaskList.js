@@ -3,17 +3,19 @@ import { TaskContext } from "./TaskProvider"
 import Task from "./Task"
 import { ListContext } from "../list/ListProvider"
 import Modal from 'react-bootstrap/Modal'
-import Alert from 'react-bootstrap/Alert'
 import { SharedListContext } from "../sharedLists/SharedListProvider"
 import { UserContext } from "../users/UserProvider"
+import "./TaskList.css"
+import {Button} from "react-bootstrap"
+
 export default () => {
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true)
-  const { tasks, addTask, patchTask, getTasks } = useContext(TaskContext)
+  const { tasks, addTask, getTasks } = useContext(TaskContext)
   const { lists, addList, patchList } = useContext(ListContext)
-  const {addSharedList} = useContext(SharedListContext)
+  const { addSharedList } = useContext(SharedListContext)
   const { users } = useContext(UserContext)
   const activeUser = parseInt(localStorage.getItem("user"), 10)
   const [buttonClicked, setButtonClicked] = useState(false)
@@ -97,7 +99,7 @@ export default () => {
 
   if (gradeATasks.find(task => !task.isCompleted)) {
     taskList = <>
-      <section>
+      <section className="showAllListSection">
         <h4>A Priority</h4>
         {gradeATasks.map(task => {
           return <Task key={task.id}
@@ -107,7 +109,7 @@ export default () => {
     </>
   } else if (gradeATasks.every(task => task.isCompleted) && gradeBTasks.find(task => !task.isCompleted)) {
     taskList = <>
-      <section>
+      <section className="showAllListSection">
         <h4>B Priority</h4>
         {gradeBTasks.map(task => {
           return <Task key={task.id}
@@ -117,7 +119,7 @@ export default () => {
     </>
   } else if (gradeATasks.every(task => task.isCompleted) && gradeBTasks.every(task => task.isCompleted) && gradeCTasks.find(task => !task.isCompleted)) {
     taskList = <>
-      <section>
+      <section className="showAllListSection">
         <h4>C Priority</h4>
         {gradeCTasks.map(task => {
           return <Task key={task.id}
@@ -127,7 +129,7 @@ export default () => {
     </>
   } else if (gradeATasks.every(task => task.isCompleted) && gradeBTasks.every(task => task.isCompleted) && gradeCTasks.every(task => task.isCompleted) && gradeDTasks.find(task => !task.isCompleted)) {
     taskList = <>
-      <section>
+      <section className="showAllListSection">
         <h4>D Priority</h4>
         {gradeDTasks.map(task => {
           return <Task key={task.id}
@@ -154,7 +156,7 @@ export default () => {
 
   if (showAllButtonClicked) {
     taskList = <>
-      <section>
+      <section className="showAllListSection">
         {gradeATasks.length >= 1 ?
           <div>
             <h4>A Priority</h4>
@@ -219,92 +221,93 @@ export default () => {
   }
 
   const constructNewsharedList = () => {
-    const sharedEmailName  = sharedEmailRef.current.value
+    const sharedEmailName = sharedEmailRef.current.value
     const foundUser = users.find(user => user.email === sharedEmailName)
     if (foundUser === undefined) {
       window.alert("No matching email found")
     } else {
       addSharedList({
-        initiateUser:  parseInt(localStorage.getItem("user"), 10),
+        initiateUser: parseInt(localStorage.getItem("user"), 10),
         userId: foundUser.id,
         listId: parseInt(sharedlListRef.current.value, 10)
       })
-      
+
     }
-    
+
   }
 
   return (
-    <section>
+    <main className="taskListContainer">
       <h1>My Lists</h1>
-      <button onClick={() => {
-        let trueVariable = true;
-        let falseVariable = false;
-        if (addListButtonClicked === false) {
-          setAddListButtonClicked(trueVariable)
-        } else {
-          setAddListButtonClicked(falseVariable)
+      <section className="listButtons">
+        <button className="btn btn-secondary" onClick={() => {
+          let trueVariable = true;
+          let falseVariable = false;
+          if (addListButtonClicked === false) {
+            setAddListButtonClicked(trueVariable)
+          } else {
+            setAddListButtonClicked(falseVariable)
+          }
         }
-      }
-      }>{addListButtonClicked ? "Close" : "Add a List"}</button>
-      <button onClick={() => {
-        let trueVariable = true;
-        let falseVariable = false;
-        if (buttonClicked === false) {
-          setButtonClicked(trueVariable)
-        } else {
-          setButtonClicked(falseVariable)
-        }
-      }}>{buttonClicked ? "Close" : "Add Items"}</button>
-      <button onClick={() => {
-        let showAllTrueVariable = true;
-        let showAllFalseVariable = false;
-        if (showAllButtonClicked === false) {
-          setShowAllButtonClicked(showAllTrueVariable)
-        } else {
-          setShowAllButtonClicked(showAllFalseVariable)
-        }
-      }}>{showAllButtonClicked ? "Show current priority" : "Show all tasks"}</button>
-      <button onClick={handleShow}>Share List</button>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Share A List with Another User</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <label htmlFor="sharedList">Select your list</label>
-          <select
-            defaultValue="select"
-            name="sharedList"
-            ref={sharedlListRef}
-            onChange={handleControlledInputChange}
-            className="form-control">
-            <option value="0">select</option>
-            {activeLists.map(sharedList => (
-              <option key={sharedList.id} value={sharedList.id}>
-                {sharedList.name}
-              </option>))}
-          </select>
-          <label htmlFor="sharedUserEmail">Who would you like to share with?</label>
-          <input
-          ref={sharedEmailRef}
-          name="sharedUserEmail"
-           type="text"></input>
-          <button onClick={(evt) => {
-            if (sharedlListRef.current.value === "0") {
-              evt.preventDefault()
-              window.alert("Please choose a list")
-            } else if (sharedEmailRef === "")  {
-              evt.preventDefault()
-              window.alert("Please enter a user's email")
-            } else {
-              evt.preventDefault()
-              constructNewsharedList()
-              setShow(false)
-              
-            }
-          }}>Share</button>
-        </Modal.Body>
-      </Modal>
+        }>{addListButtonClicked ? "Close" : "Add a List"}</button>
+        <button className="btn btn-secondary" onClick={() => {
+          let trueVariable = true;
+          let falseVariable = false;
+          if (buttonClicked === false) {
+            setButtonClicked(trueVariable)
+          } else {
+            setButtonClicked(falseVariable)
+          }
+        }}>{buttonClicked ? "Close" : "Add Items"}</button>
+        <button className="btn btn-secondary" onClick={() => {
+          let showAllTrueVariable = true;
+          let showAllFalseVariable = false;
+          if (showAllButtonClicked === false) {
+            setShowAllButtonClicked(showAllTrueVariable)
+          } else {
+            setShowAllButtonClicked(showAllFalseVariable)
+          }
+        }}>{showAllButtonClicked ? "Show current task" : "Show all"}</button>
+        <button className="btn btn-secondary" onClick={handleShow}>Share List</button>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Share A List with Another User</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <label htmlFor="sharedList">Select your list</label>
+            <select
+              defaultValue="select"
+              name="sharedList"
+              ref={sharedlListRef}
+              onChange={handleControlledInputChange}
+              className="form-control">
+              <option value="0">select</option>
+              {activeLists.map(sharedList => (
+                <option key={sharedList.id} value={sharedList.id}>
+                  {sharedList.name}
+                </option>))}
+            </select>
+            <label htmlFor="sharedUserEmail">Who would you like to share with?</label>
+            <input
+              ref={sharedEmailRef}
+              name="sharedUserEmail"
+              type="text"></input>
+            <button className="btn btn-secondary" onClick={(evt) => {
+              if (sharedlListRef.current.value === "0") {
+                evt.preventDefault()
+                window.alert("Please choose a list")
+              } else if (sharedEmailRef === "") {
+                evt.preventDefault()
+                window.alert("Please enter a user's email")
+              } else {
+                evt.preventDefault()
+                constructNewsharedList()
+                setShow(false)
+              }
+            }}>Share</button>
+          </Modal.Body>
+        </Modal>
+      </section>
       {addListButtonClicked ? (
         <form>
           <fieldset>
@@ -412,16 +415,16 @@ export default () => {
       ) : (
           <></>
         )}
-      <h4>Currently Viewing
-        <select ref={ViewListRef} onChange={handleControlledInputChange}>
+      <h4>Currently Viewing 
+        <select className="currentViewSelect" ref={ViewListRef} onChange={handleControlledInputChange}>
           <option value="0">select</option>
           {activeLists.map(viewList => (
             <option key={viewList.id} value={viewList.id}>
               {viewList.name}
             </option>))}
-        </select> List</h4>
+        </select></h4>
       {taskList}
       {taskArchiveButtonContainer}
-    </section>
+    </main>
   )
 }

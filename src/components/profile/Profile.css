@@ -10,3 +10,11 @@
   display: flex;
   margin: 5px;
 }
+
+
+.profilePicture{
+  border-radius: 50%;
+  width: 200px;
+  justify-content: center;
+  /* margin: auto; */
+}

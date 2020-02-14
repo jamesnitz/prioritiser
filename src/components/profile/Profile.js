@@ -105,7 +105,7 @@ export default () => {
   return (
     <>
       <h1>Profile Page</h1>
-      <img src={CurrentUserObject.picture} />
+      <img className="profilePicture" src={CurrentUserObject.picture} />
       <section className="profileContainer">
         <div className="graphContainer">
           <Bar data={data} />

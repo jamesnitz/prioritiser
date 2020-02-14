@@ -62,7 +62,7 @@ export default () => {
           )
         }}>Search Entry</button>
       </div>
-      <div className="taskContainer">{taskContainer}</div>
+      <div className="ArchiveTaskContainer">{taskContainer}</div>
     </section>
   )
 }
