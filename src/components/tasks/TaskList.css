@@ -17,10 +17,39 @@
   padding-right: 5px;
 }
 
+.NothingFound{
+  text-align: center;
+  border-bottom: 1px solid rgb(5, 182, 236);
+}
+
 .listButtons{
   width: 440px;
   margin-left: 10px;
-  padding-left: 25px;
+  padding-left: 15px;
+}
+
+.addList{
+  margin: 1vw;
+}
+
+.shareAll{
+  margin: 1vw;
+}
+
+.addItem{
+  margin: 1vw;
+}
+.showAll{
+  margin: 1vw;
+}
+
+.shareModal{
+ 
+  max-width: 415px;
+}
+
+.modalShareList{
+  margin-top: 2vw;
 }
 
 .currentViewSelect{

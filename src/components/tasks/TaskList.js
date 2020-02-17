@@ -93,7 +93,11 @@ export default () => {
 
   let taskList = ""
 
-
+  if (foundTasks.length < 1 && ViewListRef.current.value !== "0") {
+    taskList = <section>
+      <h3>No tasks added</h3>
+    </section>
+  }
 
 
 
@@ -142,7 +146,7 @@ export default () => {
   let taskArchiveButtonContainer = ""
   if (foundTasks.length >= 1 && gradeATasks.every(task => task.isCompleted) && gradeBTasks.every(task => task.isCompleted) && gradeCTasks.every(task => task.isCompleted) && gradeDTasks.every(task => task.isCompleted)) {
     taskArchiveButtonContainer =
-      <button onClick={() => {
+      <button className="btn btn-primary" onClick={() => {
         const foundList = lists.find(list => list.id === parseInt(ViewListRef.current.value), 10)
         patchList({
           id: foundList.id,
@@ -152,11 +156,15 @@ export default () => {
   }
 
 
+  if (showAllButtonClicked) {
 
+    
+  }
 
   if (showAllButtonClicked) {
     taskList = <>
       <section className="showAllListSection">
+        {foundTasks.length < 1 ? <div className="NothingFound">Please select a different list or add tasks</div> : <div></div>}
         {gradeATasks.length >= 1 ?
           <div>
             <h4>A Priority</h4>
@@ -240,7 +248,7 @@ export default () => {
     <main className="taskListContainer">
       <h1>My Lists</h1>
       <section className="listButtons">
-        <button className="btn btn-secondary" onClick={() => {
+        <button className="btn btn-secondary addList" onClick={() => {
           let trueVariable = true;
           let falseVariable = false;
           if (addListButtonClicked === false) {
@@ -250,7 +258,7 @@ export default () => {
           }
         }
         }>{addListButtonClicked ? "Close" : "Add a List"}</button>
-        <button className="btn btn-secondary" onClick={() => {
+        <button className="btn btn-secondary addItem" onClick={() => {
           let trueVariable = true;
           let falseVariable = false;
           if (buttonClicked === false) {
@@ -259,7 +267,7 @@ export default () => {
             setButtonClicked(falseVariable)
           }
         }}>{buttonClicked ? "Close" : "Add Items"}</button>
-        <button className="btn btn-secondary" onClick={() => {
+        <button className="btn btn-secondary showAll" onClick={() => {
           let showAllTrueVariable = true;
           let showAllFalseVariable = false;
           if (showAllButtonClicked === false) {
@@ -268,8 +276,8 @@ export default () => {
             setShowAllButtonClicked(showAllFalseVariable)
           }
         }}>{showAllButtonClicked ? "Show current task" : "Show all"}</button>
-        <button className="btn btn-secondary" onClick={handleShow}>Share List</button>
-        <Modal show={show} onHide={handleClose}>
+        <button className="btn btn-secondary shareList" onClick={handleShow}>Share List</button>
+        <Modal show={show} onHide={handleClose} className="shareModal">
           <Modal.Header closeButton>
             <Modal.Title>Share A List with Another User</Modal.Title>
           </Modal.Header>
@@ -289,10 +297,11 @@ export default () => {
             </select>
             <label htmlFor="sharedUserEmail">Who would you like to share with?</label>
             <input
+              className="form-control"
               ref={sharedEmailRef}
               name="sharedUserEmail"
               type="text"></input>
-            <button className="btn btn-secondary" onClick={(evt) => {
+            <button className="btn btn-secondary modalShareList" onClick={(evt) => {
               if (sharedlListRef.current.value === "0") {
                 evt.preventDefault()
                 window.alert("Please choose a list")
@@ -322,7 +331,7 @@ export default () => {
               />
             </div>
           </fieldset>
-          <button type="submit" onClick={evt => {
+          <button type="submit" className="btn btn-primary" onClick={evt => {
             if (listNameRef.current.value === "") {
               evt.preventDefault()
               window.alert("Please name your list")
@@ -391,7 +400,7 @@ export default () => {
                 </select>
               </div>
             </fieldset>
-            <button type="submit" onClick={evt => {
+            <button type="submit" className="btn btn-primary" onClick={evt => {
               if (taskRef.current.value === "") {
                 window.alert("Please add a task")
                 evt.preventDefault()
@@ -417,7 +426,7 @@ export default () => {
         )}
       <h4>Currently Viewing 
         <select className="currentViewSelect" ref={ViewListRef} onChange={handleControlledInputChange}>
-          <option value="0">select</option>
+          <option value="0">None</option>
           {activeLists.map(viewList => (
             <option key={viewList.id} value={viewList.id}>
               {viewList.name}
