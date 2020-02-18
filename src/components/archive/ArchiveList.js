@@ -2,6 +2,8 @@ import React, { useContext, useRef, useState, useEffect } from "react"
 import { TaskContext } from "../tasks/TaskProvider"
 import Archive from "./Archive"
 import moment from "moment"
+import "./ArchiveList.css"
+import {Button} from "react-bootstrap"
 
 export default () => {
 
@@ -25,9 +27,9 @@ export default () => {
 
   return (
     <section>
-      <h1>Archive Page</h1>
+      <h1 className="archiveListHeader">Archive Page</h1>
       <div className="searchContainer">
-        <input type="text" defaultValue={""} placeholder="search by keyword" ref={keywordRef} onKeyDown={(event) => {
+        <input className="archiveSearch" type="text" defaultValue={""} placeholder="search by keyword" ref={keywordRef} onKeyDown={(event) => {
           if (event.keyCode === 13 && keywordRef.current.value !== "") {
             setTaskContainer(
               <section>
@@ -44,13 +46,13 @@ export default () => {
             setTaskContainer("")
           }
         }}></input>
-        <input ref={dateRef} type="date"></input>
-        <button onClick={() => {
+        <input  className="archiveDate" ref={dateRef} type="date"></input>
+        <button className="btn btn-secondary archiveButton" onClick={() => {
           setTaskContainer(
             <section>
-              <button onClick={() => {
+              <button className="clearArchiveButton btn btn-secondary" onClick={() => {
                 setTaskContainer("")
-              }}>Clear</button>
+              }}>Clear Entries</button>
               {
                 completedUserTasks.map(task => {
                   if (task.completionDate === moment(dateRef.current.value).format("MM/DD/YYYY")) {

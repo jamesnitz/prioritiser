@@ -1,0 +1,30 @@
+.archiveTask{
+margin: 10px;
+border-radius: 5px;
+background-color: rgba(245, 245, 3, 0.425);
+}
+
+.archiveHeader{
+  display: flex;
+  border-bottom: 1px solid rgb(5, 182, 236);
+}
+
+.archiveCompletion{
+  padding-left: 120px;
+  margin: 5px;
+}
+
+.archiveListName{
+  margin: 5px;
+  width: 200px;
+}
+
+.archiveTaskItem{
+  margin: 5px;
+  border-bottom: 1px solid rgb(5, 182, 236);
+}
+
+.archiveDetail{
+  margin: 5px;
+  padding-bottom: 5px;
+}
