@@ -1,0 +1,23 @@
+.searchContainer{
+  display: flex;
+  padding-left: 5px;
+  padding-right: 10px;
+}
+.archiveListHeader{
+  text-align: center;
+}
+
+.archiveDate{
+  margin: 1px;
+}
+.archiveSearch{
+  margin: 1px;
+}
+
+.archiveButton{
+  margin: 1px;
+}
+.clearArchiveButton{
+margin-left: 146px;
+margin-top: 5px;
+}

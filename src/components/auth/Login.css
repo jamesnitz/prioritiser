@@ -6,8 +6,9 @@
   max-width: 450px;
   background-color: white;
   padding: 15pt;
-  border-radius: 5pt;
+  border-radius: 15pt;
   margin: auto;
+  background-color: rgb(245, 212, 245);
 }
 
 .registerContainer{
@@ -20,6 +21,7 @@
   background-color: white;
   padding: 15pt;
   border-radius: 5pt;
+  background-color: rgb(245, 212, 245);
 }
 
 .logInUserContainer{
