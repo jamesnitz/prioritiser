@@ -7,9 +7,9 @@ import { SharedListContext } from '../sharedLists/SharedListProvider';
 
 
 export default () => {
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true)
+  // const [show, setShow] = useState(false);
+  // const handleClose = () => setShow(false);
+  // const handleShow = () => setShow(true)
   const { tasks } = useContext(TaskContext)
   const { users } = useContext(UserContext)
   const { sharedLists } = useContext(SharedListContext)
@@ -41,8 +41,9 @@ export default () => {
   }
 
   const taskBuilder = (listId) => {
-   return tasks.filter(task => task.listId === listId).map(task => <div key={task.id}> {task.taskItem} </div>)
+   return tasks.filter(task => task.listId === listId).map(task => <div className="sharedIndividualTask" key={task.id}> {task.grade} : {task.taskItem} </div>)
   }
+
 
 
   const userTasks = tasks.filter(task => {
@@ -104,18 +105,22 @@ export default () => {
   };
   return (
     <>
-      <h1>Profile Page</h1>
+      <h1 className="pageHeader">Your Profile</h1>
+      <div className="profilePictureContainer">
       <img className="profilePicture" src={CurrentUserObject.picture} />
+      </div>
       <section className="profileContainer">
         <div className="graphContainer">
           <Bar data={data} />
         </div>
       </section>
-      <h4>Shared Lists</h4>
+      <h4 className="sharedListTitle">Shared Lists</h4>
       <section className="sharedListContainer">
         {foundLists.map(list => {
           return <div className="sharedList" key={list.id}>
-            <h4>{list.list.name} </h4> <h5> shared by {nameBuilder(list.initiateUser)}</h5>
+            <div className="sharedListHeader">
+            <h4 className="sharedbyListName">{list.list.name} </h4> <h5 className="sharedByHeader"> shared by {nameBuilder(list.initiateUser)}</h5>
+            </div>
             <div>{taskBuilder(list.listId)}</div>
           </div>
         })}

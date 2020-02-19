@@ -2,19 +2,57 @@
   display: flex;
 }
 
+.pageHeader{
+  text-align: center;
+}
+
+.profilePictureContainer{
+
+  text-align: center;
+}
+
 .graphContainer{
   flex-basis: 50%;
+  margin: auto;
 }
 
 .sharedListContainer{
-  display: flex;
   margin: 5px;
 }
 
 
 .profilePicture{
   border-radius: 50%;
-  width: 200px;
-  justify-content: center;
-  /* margin: auto; */
+  width: 100px;
+}
+
+.sharedListHeader{
+  display: flex;
+  text-align: center;
+  border-bottom: 1px solid rgb(5, 182, 236);
+  
+}
+.sharedListTitle{
+  text-align: center;
+}
+
+.sharedList{
+  width: 300px;
+  background-color: rgba(245, 245, 3, 0.425);
+  margin: 10px;
+  margin: auto;
+
+  border-radius: 5px;
+}
+.sharedIndividualTask{
+  border-bottom: 1px solid rgb(5, 182, 236);
+  margin: 5px;
+}
+.sharedByHeader{
+  padding-left: 120px;
+  margin: 5px;
+}
+
+.sharedbyListName{
+  margin: 3px;
 }
