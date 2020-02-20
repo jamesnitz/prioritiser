@@ -114,7 +114,7 @@ export default () => {
           <Bar data={data} />
         </div>
       </section>
-      <h4 className="sharedListTitle">Shared Lists</h4>
+  <h4 className="sharedListTitle">{foundLists.length >= 1 ? "Shared Lists" : "No lists have been shared" }</h4>
       <section className="sharedListContainer">
         {foundLists.map(list => {
           return <div className="sharedList" key={list.id}>
