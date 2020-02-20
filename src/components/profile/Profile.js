@@ -12,7 +12,7 @@ export default () => {
   // const handleShow = () => setShow(true)
   const { tasks } = useContext(TaskContext)
   const { users } = useContext(UserContext)
-  const { sharedLists } = useContext(SharedListContext)
+  const { sharedLists, deleteSharedList } = useContext(SharedListContext)
   const activeUser = parseInt(localStorage.getItem("user"), 10)
   const CurrentUserObject = users.find(user => user.id === activeUser) || {}
 
@@ -39,9 +39,9 @@ export default () => {
     const foundInitiateUserObject = initiateUserObjectArray.find(object => object.userObject.id === userId)
     return foundInitiateUserObject.userObject.name
   }
-
+ 
   const taskBuilder = (listId) => {
-   return tasks.filter(task => task.listId === listId).map(task => <div className="sharedIndividualTask" key={task.id}> {task.grade} : {task.taskItem} </div>)
+   return tasks.filter(task => task.listId === listId).map(task => <div className={task.isCompleted ? "sharedIndividualTask completedSharedItem" : "sharedIndividualTask"} key={task.id}> {task.grade} : {task.taskItem} </div>)
   }
 
 
@@ -121,26 +121,14 @@ export default () => {
             <div className="sharedListHeader">
             <h4 className="sharedbyListName">{list.list.name} </h4> <h5 className="sharedByHeader"> shared by {nameBuilder(list.initiateUser)}</h5>
             </div>
-            <div>{taskBuilder(list.listId)}</div>
+            <div>{taskBuilder(list.listId)}
+            </div>
+            <button onClick={() => {
+              deleteSharedList(list)
+            }}>Remove List</button>
           </div>
         })}
       </section>
     </>
   )
 }
-
-{/* <button key={list.id} onClick={handleShow}>{list.list.name}
-{<Modal show={show} onHide={handleClose}>
-<Modal.Header closeButton>
-    <Modal.Title>{list.list.name} shared by {nameBuilder(list.initiateUser)} </Modal.Title>
-    </Modal.Header>
-</Modal>}
-      </button> */}
-
-      // tasks.filter(task => {
-      //   console.log("task", task.listId)
-      //   console.log("list", list.listId)
-      //   if (task.listId === list.listId) {
-      //     return <div>Yes</div>
-      //   }
-      // })}

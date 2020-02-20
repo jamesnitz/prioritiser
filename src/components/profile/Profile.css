@@ -7,7 +7,6 @@
 }
 
 .profilePictureContainer{
-
   text-align: center;
 }
 
@@ -39,9 +38,8 @@
 .sharedList{
   width: 300px;
   background-color: rgba(245, 245, 3, 0.425);
-  margin: 10px;
   margin: auto;
-
+  margin-bottom: 10px;
   border-radius: 5px;
 }
 .sharedIndividualTask{
@@ -55,4 +53,8 @@
 
 .sharedbyListName{
   margin: 3px;
+}
+
+.completedSharedItem{
+  text-decoration: line-through;
 }
