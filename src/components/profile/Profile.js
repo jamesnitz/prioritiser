@@ -4,8 +4,8 @@ import { TaskContext } from '../tasks/TaskProvider';
 import './Profile.css'
 import { UserContext } from '../users/UserProvider';
 import { SharedListContext } from '../sharedLists/SharedListProvider';
-
-
+import {button} from "react-bootstrap"
+ 
 export default () => {
   // const [show, setShow] = useState(false);
   // const handleClose = () => setShow(false);
@@ -123,7 +123,7 @@ export default () => {
             </div>
             <div>{taskBuilder(list.listId)}
             </div>
-            <button onClick={() => {
+            <button className="btn btn-secondary" onClick={() => {
               deleteSharedList(list)
             }}>Remove List</button>
           </div>
