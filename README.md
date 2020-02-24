@@ -1,68 +1,86 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Prioritiser
 
-## Available Scripts
+![Tasklist page](./prioritiser.jpg)
 
-In the project directory, you can run:
+Prioritiser is a list-based app designed to increase efficiency and keep you on track by prioritizing your day-to-day tasks.
 
-### `npm start`
+Built with React, and based on strategies from "Seven Habits of Highly Successful People," Prioritiser asks you to rank or grade every item on a given list and lets you work your way down from most important to least.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The app also features an archive to look up completed lists and the ability to share lists with other users.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
 
-### `npm test`
+## Installation
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Use the package manager NPM to install the following:
 
-### `npm run build`
+```bash
+npm i --save react-router-dom
+npm install --save bootstrap
+npm install --save reactstrap react react-dom
+npm instal moment --save
+npm install chart.js --save
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+npm start from the root directory to run application
+```
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+## Database sample
+Create a json file, database.json,  using the provided data, and run the server on port 8088
+```
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "James",
+      "email": "james@james.com",
+      "password": "123",
+      "picture": "https://res.cloudinary.com/durw1hitu/image/upload/v1581609417/prioritiserfolder/James_Photo_hutqyt.png"
+    }
+  ],
+  "tasks": [
+    {
+      "taskItem": "buy plane tickets",
+      "userId": 2,
+      "grade": "A",
+      "taskDetail": "",
+      "completionDate": "02/21/2020",
+      "isCompleted": true,
+      "listId": 1,
+      "id": 1
+    }
+  ],
+  "lists": [
+    {
+      "name": "Vacation",
+      "userId": 2,
+      "archived": false,
+      "id": 1
+    },
+    {
+      "name": "Prioritiser",
+      "userId": 1,
+      "archived": true,
+      "id": 2
+    }
+  ],
+  "sharedLists": [
+    {
+      "initiateUser": 1,
+      "userId": 3,
+      "listId": 3,
+      "id": 2
+    }
+  ]
+}
+```
+## Usage
+1. Register as a new user/ login with existing username and password.
+2. Create a new list by clicking 'Add a List'
+3. Click 'Add Items', then select a list, enter information about the given item, and select a grade, then click 'log new task'.
+4. Your highest priority task will appear first ranking from 'A-D'. Click 'Show all' to view all items.
+5. Click 'share list' to send any incomplete lists to another user.
+6. Click an individual item to add additional details, edit the item, or delete the item. Click the checkbox once complete to cross off an item and move on to the next highest priority.
+7. Completion off all tasks will present an 'archive list' button. Click to add list to the archive.
+7. Select 'Archive' from the navigation bar to view completed tasks.
+8. Search by either keyword and press 'enter' or date to see found tasks.
+9. Select 'profile' from the navigation bar to view user's personal profile picture, a bar graph detailing the tasks they have completed, and all lists that have been shared.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
